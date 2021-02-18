@@ -59,103 +59,158 @@ ui <- fluidPage(
     h5("Note: Estimates below should be made with 90% confidence. This means roughly the bottom and top 5% of possible cases can be ignored."),
     
   ),
-
-  fluidRow(
-    h3("Threat Event Frequency")
-  ),
   
-  fluidRow(  
-    h5("- The annual frequency that Threats are encountered, whether successful or not.")
+  fluidRow(
+    h2("Likelihood/Frequency")
   ),
   
   fluidRow(
-    column(4,
-           textAreaInput("text", h4("Threat Description"), width = '100%',
-                         value = "Threat..."))
-  ),
-    
-  fluidRow(
-    
-    column(4,
-      formatNumericInput(
-        inputId = "tef_min_num",
-        label = "Threat Event Frequency - Minimum",
-        value = 1,
-        format = "dotDecimalCharCommaSeparator",
-        width = "100%",
-        align = "right"
-      ),
-    ),
-    column(4,
-      formatNumericInput(
-        inputId = "tef_max_num",
-        label = "Threat Event Frequency - Maximum",
-        value = 10,
-        format = "dotDecimalCharCommaSeparator",
-        width = "100%",
-        align = "right"
-      ),
-    ),
-    
-  ), 
-  
-  fluidRow(
-    h3("Vulnerability")
-  ),
-  
-  fluidRow(
-    column(4,
-           textAreaInput("text", h4("Vulnerability Description"), width = '100%',
-                         value = "Vulnerability..."))
-  ),
-  
-  fluidRow(
-    radioButtons("vuln_radio", h4("- Vulnerability Methods"),
-               choices = list("Threat Capability/Control Strength" = 1,
-                              "Vulnerability Percentage" = 2),selected = 1)
+    radioButtons("lkh_radio", h4("- Likelihood Methods"),
+                 choices = list("Threat Event Frequency/Vulnerability" = 1,
+                                "Likelihood" = 2),selected = 1)
   ),
   conditionalPanel(
-    condition = "input.vuln_radio == 1",
-
-    fluidRow(  
-      h5("- Threat Capability - the percentile range of ability and resources the typical Threat is likely to possess.")
-    ),
-  
-    fluidRow(  
-      h5("- Control Strength - the percentile range of resistence strength the organization's controls have to Threats.")
-    ),
-  
-    fluidRow(
-      chooseSliderSkin("Flat", color = "#00563f"),
-        column(4, 
-           sliderInput("tcap_slider", h4("- Threat Capability (%)"), width = '100%',
-                       min = 1, max = 99, value = c(10, 50)),
-           sliderInput("cs_slider", h4("- Control Strength (%)"), width = '100%',
-                       min = 1, max = 99, value = c(25, 75))
+    condition = "input.lkh_radio == 1",
+      
+      fluidRow(
+        h3("Threat Event Frequency")
       ),
-    ),
+      
+      fluidRow(  
+        h5("- The annual frequency that Threats are encountered, whether successful or not.")
+      ),
+      
+      fluidRow(
+        column(4,
+               textAreaInput("text", h4("Threat Description"), width = '100%',
+                             value = "Threat..."))
+      ),
+        
+      fluidRow(
+        
+        column(4,
+          formatNumericInput(
+            inputId = "tef_min_num",
+            label = "Threat Event Frequency - Minimum",
+            value = 1,
+            format = "dotDecimalCharCommaSeparator",
+            width = "100%",
+            align = "right"
+          ),
+        ),
+        column(4,
+          formatNumericInput(
+            inputId = "tef_max_num",
+            label = "Threat Event Frequency - Maximum",
+            value = 10,
+            format = "dotDecimalCharCommaSeparator",
+            width = "100%",
+            align = "right"
+          ),
+        ),
+        
+      ), 
+      
+      fluidRow(
+        h3("Vulnerability")
+      ),
+      
+      fluidRow(
+        column(4,
+               textAreaInput("text", h4("Vulnerability Description"), width = '100%',
+                             value = "Vulnerability..."))
+      ),
+      
+      fluidRow(
+        radioButtons("vuln_radio", h4("- Vulnerability Methods"),
+                   choices = list("Threat Capability/Control Strength" = 1,
+                                  "Vulnerability Percentage" = 2),selected = 1)
+      ),
+      conditionalPanel(
+        condition = "input.vuln_radio == 1",
     
-    fluidRow(
-      h4("- Vulnerability Percentage")
-    ),
-    
-    fluidRow(
-      verbatimTextOutput("r_vuln")
-    ),
-    
+        fluidRow(  
+          h5("- Threat Capability - the percentile range of ability and resources the typical Threat is likely to possess.")
+        ),
+      
+        fluidRow(  
+          h5("- Control Strength - the percentile range of resistence strength the organization's controls have to Threats.")
+        ),
+      
+        fluidRow(
+          chooseSliderSkin("Flat", color = "#00563f"),
+            column(4, 
+               sliderInput("tcap_slider", h4("- Threat Capability (%)"), width = '100%',
+                           min = 1, max = 99, value = c(10, 50)),
+               sliderInput("cs_slider", h4("- Control Strength (%)"), width = '100%',
+                           min = 1, max = 99, value = c(25, 75))
+          ),
+        ),
+        
+        fluidRow(
+          h4("- Vulnerability Percentage")
+        ),
+        
+        fluidRow(
+          verbatimTextOutput("r_vuln")
+        ),
+        
+      ),
+      
+      conditionalPanel(
+        condition = "input.vuln_radio == 2",
+        
+        fluidRow(  
+          h5("- Vulnerability - the percentage of attempts when a Threat will be successful.")
+        ),
+        
+        column(4,
+          sliderInput("vuln_slider", h4("- Vulnerability (%)"), width = '100%',
+                           min = 1, max = 99, value = c(10))
+        )
+      ),
   ),
   
   conditionalPanel(
-    condition = "input.vuln_radio == 2",
+    condition = "input.lkh_radio == 2",
     
     fluidRow(  
-      h5("- Vulnerability - the percentage of attempts when a Threat will be successful.")
+      h5("- Likelihood - the percentage of event when the Impact will be realized.")
     ),
     
-    column(4,
-      sliderInput("vuln_slider", h4("- Vulnerability (%)"), width = '100%',
-                       min = 1, max = 99, value = c(10))
-    )
+    fluidRow(
+      column(4,
+             textAreaInput("text", h4("Likelihood Description"), width = '100%',
+                           value = "Likelihood..."))
+    ),
+    
+    fluidRow(
+      
+      column(4,
+             formatNumericInput(
+               inputId = "lkh_min_num",
+               label = "Likelihood - Minimum",
+               value = 1,
+               format = "dotDecimalCharCommaSeparator",
+               width = "100%",
+               align = "right"
+             ),
+      ),
+      column(4,
+             formatNumericInput(
+               inputId = "lkh_max_num",
+               label = "Likelihood - Maximum",
+               value = 10,
+               format = "dotDecimalCharCommaSeparator",
+               width = "100%",
+               align = "right"
+             ),
+      ),
+    ),
+  ),
+  
+  fluidRow(
+    h2("Impact/Magnitude")
   ),
   
   fluidRow(
@@ -223,93 +278,97 @@ ui <- fluidPage(
     
   ), 
 
-  fluidRow(
-    h1("Inherent Risk")
+  conditionalPanel(
+    condition = "input.lkh_radio == 1",
+  
+          fluidRow(
+            h1("Inherent Risk")
+          ),
+          
+          fluidRow(
+            h2("Inherent Likelihood Summary")
+          ),
+          
+          fluidRow(
+            
+            h2(" "),
+            verbatimTextOutput("in_lkh_sum")
+        
+          ),
+          
+          fluidRow(
+            
+            sliderInput("in_lkh_bins", h3("# of bins"), width = '50%',
+                        min = 1, max = 50, value = c(25)),
+            plotOutput('in_lkh_hist')
+            
+          ),
+          
+          fluidRow(
+        
+            h2("Inherent Impact Summary")
+            
+          ),
+          
+          fluidRow(
+            
+            h2(" "),
+            verbatimTextOutput("in_ipt_sum")
+        
+          ),
+          
+          fluidRow(
+            
+            sliderInput("in_ipt_bins", h3("# of bins"), width = '50%',
+                        min = 1, max = 50, value = c(25)),
+            plotOutput('in_ipt_hist')
+            
+          ),
+          
+          fluidRow(
+        
+            h2("Inherent Risk Summary")
+            
+          ),  
+          
+          fluidRow(
+            
+            h4("Inherent Annual Loss Expectancy (1 year)")
+            
+          ),
+          
+          fluidRow(
+            
+            verbatimTextOutput("in_ale_sum"),
+            verbatimTextOutput("in_ale_10"),
+            verbatimTextOutput("in_ale_90"),
+            verbatimTextOutput("in_ale_99")
+            
+          ),  
+          
+          fluidRow(
+            
+            h4("Inherent Annual Loss Expectancy (10 years)")
+            
+          ),
+          
+          fluidRow(
+            
+            verbatimTextOutput("in_ale_ten_sum"),
+            verbatimTextOutput("in_ale_ten_10"),
+            verbatimTextOutput("in_ale_ten_90"),
+            verbatimTextOutput("in_ale_ten_99")
+            
+          ),  
+          
+          fluidRow(
+            
+            sliderInput("in_ale_bins", h4("# of bins"), width = '50%',
+                        min = 1, max = 50, value = c(25)),
+            plotOutput('in_ale_hist')
+            
+          ),
   ),
-  
-  fluidRow(
-    h2("Inherent Likelihood Summary")
-  ),
-  
-  fluidRow(
-    
-    h2(" "),
-    verbatimTextOutput("in_lkh_sum")
-
-  ),
-  
-  fluidRow(
-    
-    sliderInput("in_lkh_bins", h3("# of bins"), width = '50%',
-                min = 1, max = 50, value = c(25)),
-    plotOutput('in_lkh_hist')
-    
-  ),
-  
-  fluidRow(
-
-    h2("Inherent Impact Summary")
-    
-  ),
-  
-  fluidRow(
-    
-    h2(" "),
-    verbatimTextOutput("in_ipt_sum")
-
-  ),
-  
-  fluidRow(
-    
-    sliderInput("in_ipt_bins", h3("# of bins"), width = '50%',
-                min = 1, max = 50, value = c(25)),
-    plotOutput('in_ipt_hist')
-    
-  ),
-  
-  fluidRow(
-
-    h2("Inherent Risk Summary")
-    
-  ),  
-  
-  fluidRow(
-    
-    h4("Inherent Annual Loss Expectancy (1 year)")
-    
-  ),
-  
-  fluidRow(
-    
-    verbatimTextOutput("in_ale_sum"),
-    verbatimTextOutput("in_ale_10"),
-    verbatimTextOutput("in_ale_90"),
-    verbatimTextOutput("in_ale_99")
-    
-  ),  
-  
-  fluidRow(
-    
-    h4("Inherent Annual Loss Expectancy (10 years)")
-    
-  ),
-  
-  fluidRow(
-    
-    verbatimTextOutput("in_ale_ten_sum"),
-    verbatimTextOutput("in_ale_ten_10"),
-    verbatimTextOutput("in_ale_ten_90"),
-    verbatimTextOutput("in_ale_ten_99")
-    
-  ),  
-  
-  fluidRow(
-    
-    sliderInput("in_ale_bins", h4("# of bins"), width = '50%',
-                min = 1, max = 50, value = c(25)),
-    plotOutput('in_ale_hist')
-    
-  ),  
 
   fluidRow(
     h1("Current Residual Risk")
@@ -454,6 +513,17 @@ server <- function(input, output, session) {
   vuln_percent <- reactive({
     vuln_percent_stage() / 100
   })
+  # Likelihood (Min, Max) 90% Confidence
+  # Percentage in decimal format
+  lkh_option <- reactive({
+    cbind(input$lkh_radio)
+  })
+  lkh_min <- reactive({
+    cbind(input$lkh_min_num)
+  })
+  lkh_max <- reactive({
+    cbind(input$lkh_max_num)
+  })
   # Primary Impact (Min, Max) 90% Confidence
   pi_min <- reactive({
     cbind(input$pi_min_num)
@@ -500,12 +570,19 @@ server <- function(input, output, session) {
   tcap_sd <- reactive({
     (log(tcap_max())-log(tcap_min()))/3.29
   })
-  # Resistence Strength
+  # Resistance Strength
   cs_mean <- reactive({
     (log(cs_max())+log(cs_min()))/2
   })
   cs_sd <- reactive({
     (log(cs_max())-log(cs_min()))/3.29
+  })
+  # Likelihood
+  lkh_mean <- reactive({
+    (log(lkh_max())+log(lkh_min()))/2
+  })
+  lkh_sd <- reactive({
+    (log(lkh_max())-log(lkh_min()))/3.29
   })
   # Primary Single Event Impact
   pi_mean <- reactive({
@@ -546,6 +623,10 @@ server <- function(input, output, session) {
   cs <- reactive({
     rlnorm(n,cs_mean(),cs_sd())
   })
+  # Calculate the Current Likelihood (CS)
+  lkh_temp2 <- reactive({
+    rlnorm(n,lkh_mean(),lkh_sd())
+  })
   # Calculate the Current Residual Vulnerability (Vuln)
   vuln_temp4 <- reactive({
     tcap() - cs()
@@ -569,8 +650,15 @@ server <- function(input, output, session) {
   ## Assumes the Inherent Vulnerability level is 90%
   in_vuln <- 0.95
   # Calculate the Current Residual Primary Likelihood (LKH)
-  lkh <- reactive({
+  lkh_temp1 <- reactive({
     tef() * as.vector(vuln())
+  })
+  lkh <- reactive({
+    if (lkh_option()==1) {
+      lkh_temp1()
+    } else {
+      lkh_temp2()
+    }
   })
   ## Assumes that the Threat Event Frequency increases 20% in the absense of controls
   in_tef <- reactive({
