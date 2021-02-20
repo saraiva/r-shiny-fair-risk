@@ -17,3 +17,11 @@ The inherent risk results are not provided when evaluating likelihood directly d
   - Increasing the threat event frequency by 20% (assumes increased threat activity in the absences of controls)
   - Setting the vulnerability percentage to 95% (assumes there are some controls (5%) that are outside of the control of the organization)
 These values were set somewhat arbitrarily, but the 95% vulnerability percentage is equivelent to a threat capability of 1% - 99% and a control strength of 1% - 1%.
+
+To use the Shiny applications you will need:
+  - Rstudio (have only tested with Version 1.3.1093)
+  - R (have only tested with Version 4.0.4)
+
+Open the app.R file in Rsudio and click the Run App button in the top right corner of the coding editing pane.
+
+The application is written to be reactive, therefore values will update as values are changed.
