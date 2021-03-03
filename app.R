@@ -134,7 +134,10 @@ ui <- fluidPage(
         ),
       
         fluidRow(  
-          h5("- Control Strength - the percentile range of resistence strength the organization's controls have to Threats.")
+          h5("- Current Control Strength - the current percentile range of resistence strength the organization's controls have to Threats.")
+        ),
+        fluidRow(  
+          h5("- Future Control Strength - the percentile range of resistence strength the organization's controls will have to Threats after additional controls are implemented.")
         ),
       
         fluidRow(
@@ -142,17 +145,27 @@ ui <- fluidPage(
             column(4, 
                sliderInput("tcap_slider", h4("- Threat Capability (%)"), width = '100%',
                            min = 1, max = 99, value = c(10, 50)),
-               sliderInput("cs_slider", h4("- Control Strength (%)"), width = '100%',
+               sliderInput("cs_slider", h4("- Current Control Strength (%)"), width = '100%',
+                           min = 1, max = 99, value = c(25, 75)),
+               sliderInput("f_cs_slider", h4("- Future Control Strength (%)"), width = '100%',
                            min = 1, max = 99, value = c(25, 75))
           ),
         ),
         
         fluidRow(
-          h4("- Vulnerability Percentage")
+          h4("- Current Vulnerability Percentage")
         ),
         
         fluidRow(
           verbatimTextOutput("r_vuln")
+        ),
+        
+        fluidRow(
+          h4("- Future Vulnerability Percentage")
+        ),
+        
+        fluidRow(
+          verbatimTextOutput("f_r_vuln")
         ),
         
       ),
@@ -161,12 +174,17 @@ ui <- fluidPage(
         condition = "input.vuln_radio == 2",
         
         fluidRow(  
-          h5("- Vulnerability - the percentage of attempts when a Threat will be successful.")
+          h5("- Current Vulnerability - the current percentage of attempts when a Threat will be successful.")
+        ),
+        fluidRow(  
+          h5("- Future Vulnerability - the percentage of attempts when a Threat will be successful after additional controls are implemented.")
         ),
         
         column(4,
-          sliderInput("vuln_slider", h4("- Vulnerability (%)"), width = '100%',
-                           min = 1, max = 99, value = c(10))
+          sliderInput("vuln_slider", h4("- Current Vulnerability (%)"), width = '100%',
+                           min = 1, max = 99, value = c(10)),
+          sliderInput("f_vuln_slider", h4("- Future Vulnerability (%)"), width = '100%',
+                      min = 1, max = 99, value = c(10))
         )
       ),
   ),
@@ -341,6 +359,7 @@ ui <- fluidPage(
             
             verbatimTextOutput("in_ale_sum"),
             verbatimTextOutput("in_ale_10"),
+            verbatimTextOutput("in_ale_mode"),
             verbatimTextOutput("in_ale_90"),
             verbatimTextOutput("in_ale_99")
             
@@ -376,7 +395,7 @@ ui <- fluidPage(
     
   fluidRow(
 
-    h2("Residual Likelihood Summary")
+    h2("Current Residual Likelihood Summary")
     
   ),
   
@@ -397,7 +416,7 @@ ui <- fluidPage(
   
   fluidRow(
 
-    h2("Residual Impact Summary")
+    h2("Current Residual Impact Summary")
     
   ),
   
@@ -418,13 +437,13 @@ ui <- fluidPage(
   
   fluidRow(
 
-    h2("Residual Risk Summary")
+    h2("Current Residual Risk Summary")
     
   ),
   
   fluidRow(
     
-    h4("Residual Annual Loss Expectancy (1 year)")
+    h4("Current Residual Annual Loss Expectancy (1 year)")
     
   ),
   
@@ -432,6 +451,7 @@ ui <- fluidPage(
     
     verbatimTextOutput("rale_sum"),
     verbatimTextOutput("rale_10"),
+    verbatimTextOutput("rale_mode"),
     verbatimTextOutput("rale_90"),
     verbatimTextOutput("rale_99")
     
@@ -439,7 +459,7 @@ ui <- fluidPage(
   
   fluidRow(
   
-    h4("Residual Annual Loss Expectancy (10 years)")
+    h4("Current Residual Annual Loss Expectancy (10 years)")
     
   ),
   
@@ -457,8 +477,106 @@ ui <- fluidPage(
     
     sliderInput("rale_bins", h4("# of bins"), width = '50%',
                 min = 1, max = 50, value = c(25)),
-    plotOutput('rale_hist')
+    plotOutput('rale_hist_1'),
+    plotOutput('rale_hist_2')
     
+  ),
+  
+  conditionalPanel(
+    condition = "input.lkh_radio == 1",
+    
+    fluidRow(
+      h1("Future Residual Risk")
+    ),
+    
+    fluidRow(
+      
+      h2("Future Residual Likelihood Summary")
+      
+    ),
+    
+    fluidRow(
+      
+      h2(" "),
+      verbatimTextOutput("f_lkh_sum")
+      
+    ),
+    
+    fluidRow(
+      
+      sliderInput("f_lkh_bins", h4("# of bins"), width = '50%',
+                  min = 1, max = 50, value = c(25)),
+      plotOutput('f_lkh_hist')
+      
+    ),
+    
+    fluidRow(
+      
+      h2("Future Residual Impact Summary")
+      
+    ),
+    
+    fluidRow(
+      
+      h2(" "),
+      verbatimTextOutput("f_ipt_sum")
+      
+    ),
+    
+    fluidRow(
+      
+      sliderInput("f_ipt_bins", h4("# of bins"), width = '50%',
+                  min = 1, max = 50, value = c(25)),
+      plotOutput('f_ipt_hist')
+      
+    ),
+    
+    fluidRow(
+      
+      h2("Future Residual Risk Summary")
+      
+    ),
+    
+    fluidRow(
+      
+      h4("Future Residual Annual Loss Expectancy (1 year)")
+      
+    ),
+    
+    fluidRow(
+      
+      verbatimTextOutput("f_rale_sum"),
+      verbatimTextOutput("f_rale_10"),
+      verbatimTextOutput("f_rale_mode"),
+      verbatimTextOutput("f_rale_90"),
+      verbatimTextOutput("f_rale_99")
+      
+    ),
+    
+    fluidRow(
+      
+      h4("Future Residual Annual Loss Expectancy (10 years)")
+      
+    ),
+    
+    fluidRow(
+      
+      h2(" "),
+      verbatimTextOutput("f_rale_ten_sum"),
+      verbatimTextOutput("f_rale_ten_10"),
+      verbatimTextOutput("f_rale_ten_90"),
+      verbatimTextOutput("f_rale_ten_99")
+      
+    ),
+    
+    fluidRow(
+      
+      sliderInput("f_rale_bins", h4("# of bins"), width = '50%',
+                  min = 1, max = 50, value = c(25)),
+      plotOutput('f_rale_hist_1'),
+      plotOutput('f_rale_hist_2')
+      
+    ),
   ),
   
 )
@@ -503,6 +621,20 @@ server <- function(input, output, session) {
   cs_max <- reactive({
     cs_max_stage() / 100
   })
+  # Future Control Strength (Min, Max) 90% Confidence
+  # Percentage in decimal format
+  f_cs_min_stage <- reactive({
+    cbind(input$f_cs_slider[1])
+  })
+  f_cs_min <- reactive({
+    f_cs_min_stage() / 100
+  })
+  f_cs_max_stage <- reactive({
+    cbind(input$f_cs_slider[2])
+  })
+  f_cs_max <- reactive({
+    f_cs_max_stage() / 100
+  })
   # Direct Vulnerability percentage
   vuln_option <- reactive({
     cbind(input$vuln_radio)
@@ -512,6 +644,13 @@ server <- function(input, output, session) {
   })
   vuln_percent <- reactive({
     vuln_percent_stage() / 100
+  })
+  # Direct Vulnerability percentage
+  f_vuln_percent_stage <- reactive({
+    cbind(input$f_vuln_slider)
+  })
+  f_vuln_percent <- reactive({
+    f_vuln_percent_stage() / 100
   })
   # Likelihood (Min, Max) 90% Confidence
   # Percentage in decimal format
@@ -577,6 +716,13 @@ server <- function(input, output, session) {
   cs_sd <- reactive({
     (log(cs_max())-log(cs_min()))/3.29
   })
+  # Future Resistance Strength
+  f_cs_mean <- reactive({
+    (log(f_cs_max())+log(f_cs_min()))/2
+  })
+  f_cs_sd <- reactive({
+    (log(f_cs_max())-log(f_cs_min()))/3.29
+  })
   # Likelihood
   lkh_mean <- reactive({
     (log(lkh_max())+log(lkh_min()))/2
@@ -623,6 +769,10 @@ server <- function(input, output, session) {
   cs <- reactive({
     rlnorm(n,cs_mean(),cs_sd())
   })
+  # Calculate the Future Residual Control Strength (CS)
+  f_cs <- reactive({
+    rlnorm(n,f_cs_mean(),f_cs_sd())
+  })
   # Calculate the Current Likelihood (CS)
   lkh_temp2 <- reactive({
     rlnorm(n,lkh_mean(),lkh_sd())
@@ -647,6 +797,26 @@ server <- function(input, output, session) {
       vuln_percent()
     }
   })
+  # Calculate the Future Residual Vulnerability (Vuln)
+  f_vuln_temp4 <- reactive({
+    tcap() - f_cs()
+  })
+  f_vuln_temp3 <- reactive({
+    pmax(f_vuln_temp4(),0)
+  })
+  f_vuln_temp2 <- reactive({
+    pmin(f_vuln_temp3(),1)
+  })
+  f_vuln_temp1 <- reactive({
+    (sum(f_vuln_temp2() > 0))/n
+  })
+  f_vuln <- reactive({
+    if (vuln_option()==1) {
+      f_vuln_temp1()
+    } else {
+      f_vuln_percent()
+    }
+  })
   ## Assumes the Inherent Vulnerability level is 90%
   in_vuln <- 0.95
   # Calculate the Current Residual Primary Likelihood (LKH)
@@ -655,24 +825,32 @@ server <- function(input, output, session) {
   })
   lkh <- reactive({
     if (lkh_option()==1) {
-      lkh_temp1()
+      #lkh_temp1()
+      round(lkh_temp1(), digits = 2)
     } else {
-      lkh_temp2()
+      #lkh_temp2()
+      round(lkh_temp2(), digits = 2)
     }
+  })
+  # Calculate the Future Residual Primary Likelihood (LKH)
+  f_lkh <- reactive({
+    #tef() * as.vector(f_vuln())
+    round(tef() * as.vector(f_vuln()), digits = 2)
   })
   ## Assumes that the Threat Event Frequency increases 20% in the absense of controls
   in_tef <- reactive({
     tef() * 1.2
   })
   in_lkh <- reactive({
-    in_tef() * in_vuln
+    #in_tef() * in_vuln
+    round(in_tef() * in_vuln, digits = 2)
   })
   ### Calculate the Inherent and Residual Primary and Secondary Impacts
-  ### The Residual Primary Impact is the loss that will result with every occurance
+  ### The Residual Primary Impact is the loss that will result with every occurrence
   pi <- reactive({
     rlnorm(n,pi_mean(),pi_sd())
   })
-  ### Assumes that the Primary Impact increases 20% in the absense of controls
+  ### Assumes that the Primary Impact increases 20% in the absence of controls
   in_pi <- reactive({
     pi() * 1.2
   })
@@ -690,7 +868,8 @@ server <- function(input, output, session) {
   })
   # Inherent Impact
   in_ipt <- reactive({
-    in_pi() + in_si()
+    #in_pi() + in_si()
+    round(in_pi() + in_si())
   })
   # Residual Secondary Impact per Event
   sie <- reactive({
@@ -698,19 +877,28 @@ server <- function(input, output, session) {
   })
   # Residual Impact
   ipt <- reactive({
-    pi() + sie()
+    #pi() + sie()
+    round(pi() + sie())
   })
-  # Residual Annual Loss Expectancy = lkh * ipt
+  # Current Residual Annual Loss Expectancy = lkh * ipt
   rale <- reactive({
-    lkh() * ipt()
+    round(lkh() * ipt())
   })
-  # Residual Annual Loss Expectancy over 10 years
+  # Future Residual Annual Loss Expectancy = lkh * ipt
+  f_rale <- reactive({
+    round(f_lkh() * ipt())
+  })
+  # Current Residual Annual Loss Expectancy over 10 years
   rale_ten <- reactive({
     rale() * 10
   })
+  # Future Residual Annual Loss Expectancy over 10 years
+  f_rale_ten <- reactive({
+    f_rale() * 10
+  })
   ## Inherent Annual Loss Expectancy - Assumes the single loss expectancy increases 20% in the absense of controls
   in_ale <- reactive({
-    in_lkh() * in_ipt()
+    round(in_lkh() * in_ipt())
   })
   ## Inherent Annual Loss Expectancy over 10 years
   in_ale_ten <- reactive({
@@ -725,6 +913,11 @@ server <- function(input, output, session) {
   output$rale_10 <- renderPrint({
     print("Tenth Percentile")
     dollar(c(quantile(rale(), maxDecimals = 4, c(0.1))))
+  })
+  # Residual Annual Loss Expectancy Most Likely (Mode)
+  output$rale_mode <- renderPrint({
+    print("Most Likely")
+    dollar(c(getmode(rale())))
   })
   output$rale_90 <- renderPrint({
     print("Ninetieth Percentile")  
@@ -747,10 +940,46 @@ server <- function(input, output, session) {
     print("Ninety-Ninth Percentile")  
     dollar(c(quantile(rale_ten(), maxDecimals = 4, c(0.99))))
   })
+  # Future Residual Annual Loss Expectancy Percentile Calculations
+  output$f_rale_10 <- renderPrint({
+    print("Tenth Percentile")
+    dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.1))))
+  })
+  # Future Residual Annual Loss Expectancy Most Likely (Mode)
+  output$f_rale_mode <- renderPrint({
+    print("Most Likely")
+    dollar(c(getmode(f_rale())))
+  })
+  output$f_rale_90 <- renderPrint({
+    print("Ninetieth Percentile")  
+    dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.9))))
+  })
+  output$f_rale_99 <- renderPrint({
+    print("Ninety-Ninth Percentile")  
+    dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.99))))
+  })
+  # Future Residual Annual Loss Expectancy over 10 year Percentile Calculations
+  output$f_rale_ten_10 <- renderPrint({
+    print("Tenth Percentile")
+    dollar(c(quantile(f_rale_ten(), maxDecimals = 4, c(0.1))))
+  })
+  output$f_rale_ten_90 <- renderPrint({
+    print("Ninetieth Percentile")  
+    dollar(c(quantile(f_rale_ten(), maxDecimals = 4, c(0.9))))
+  })
+  output$f_rale_ten_99 <- renderPrint({
+    print("Ninety-Ninth Percentile")  
+    dollar(c(quantile(f_rale_ten(), maxDecimals = 4, c(0.99))))
+  })
   # Inherent Annual Loss Expectancy Percentile Calculations
   output$in_ale_10 <- renderPrint({
     print("Tenth Percentile")
     dollar(c(quantile(in_ale(), maxDecimals = 4, c(0.1))))
+  })
+  # Inherent Annual Loss Expectancy Most Likely (Mode)
+  output$in_ale_mode <- renderPrint({
+    print("Most Likely")
+    dollar(c(getmode(in_ale())))
   })
   output$in_ale_90 <- renderPrint({
     print("Ninetieth Percentile")
@@ -773,8 +1002,13 @@ server <- function(input, output, session) {
     print("Ninety-Ninth Percentile")
     dollar(c(quantile(in_ale_ten(), maxDecimals = 4, c(0.99))))
   })
+  # Current Vulnerability
   output$r_vuln <- renderPrint({
     print(percent(vuln()))
+  })
+  # Future Vulnerability
+  output$f_r_vuln <- renderPrint({
+    print(percent(f_vuln()))
   })
 
   # Inherent Risk Renders
@@ -830,7 +1064,7 @@ server <- function(input, output, session) {
     hist(in_ale(), col = "#00563f",  breaks = iab(), labels = TRUE)
   })
   
-  #Residual Risk Renders
+  # Current Residual Risk Renders
   
   output$lkh_sum <- renderPrint({
     
@@ -861,13 +1095,13 @@ server <- function(input, output, session) {
     par(xpd=TRUE)
     hist(ipt(), col = "#00563f",  breaks = ib(), labels = TRUE)
   })
-  #Residual Annual Loss Expectancy Summary
+  # Current Residual Annual Loss Expectancy Summary
   output$rale_sum <- renderPrint({
     
     dollar(c(summary(rale())))
   })
   
-  #Residual Annual Loss Expectancy over 10 years Summary
+  # Current Residual Annual Loss Expectancy over 10 years Summary
   output$rale_ten_sum <- renderPrint({
     
     dollar(c(summary(rale_ten())))
@@ -877,10 +1111,79 @@ server <- function(input, output, session) {
     cbind(input$rale_bins)
   })
   
-  output$rale_hist <- renderPlot({
+  output$rale_hist_1 <- renderPlot({
     req(rale())
     par(xpd=TRUE)
     hist(rale(), col = "#00563f",  breaks = rab(), labels = TRUE)
+  })
+  
+  output$rale_hist_2 <- renderPlot({
+    req(rale())
+    par(xpd=TRUE)
+    rh <- hist(rale(), plot=FALSE)
+    rh$density = rh$counts/sum(rh$counts)*100
+    plot(rh, freq=FALSE, col = "#00563f", labels = TRUE)
+  })
+  
+  # Future Residual Risk Renders
+  
+  output$f_lkh_sum <- renderPrint({
+    
+    summary(f_lkh())
+  })
+  
+  f_lb <- reactive({
+    cbind(input$f_lkh_bins)
+  })
+  
+  output$f_lkh_hist <- renderPlot({
+    req(f_lkh())
+    par(xpd=TRUE)
+    hist(f_lkh(), col = "#00563f",  breaks = lb(), labels = TRUE)
+  })
+  
+  output$f_ipt_sum <- renderPrint({
+    
+    dollar(c(summary(ipt())))
+  })
+  
+  f_ib <- reactive({
+    cbind(input$f_ipt_bins)
+  })
+  
+  output$f_ipt_hist <- renderPlot({
+    req(ipt())
+    par(xpd=TRUE)
+    hist(ipt(), col = "#00563f",  breaks = ib(), labels = TRUE)
+  })
+  # Future Residual Annual Loss Expectancy Summary
+  output$f_rale_sum <- renderPrint({
+    
+    dollar(c(summary(f_rale())))
+  })
+  
+  # Future Residual Annual Loss Expectancy over 10 years Summary
+  output$f_rale_ten_sum <- renderPrint({
+    
+    dollar(c(summary(f_rale_ten())))
+  })
+  
+  f_rab <- reactive({
+    cbind(input$f_rale_bins)
+  })
+  
+  output$f_rale_hist_1 <- renderPlot({
+    req(f_rale())
+    par(xpd=TRUE)
+    hist(f_rale(), col = "#00563f",  breaks = rab(), labels = TRUE)
+  })
+  
+  output$f_rale_hist_2 <- renderPlot({
+    req(f_rale())
+    par(xpd=TRUE)
+    f_rh <- hist(f_rale(), plot=FALSE)
+    f_rh$density = f_rh$counts/sum(f_rh$counts)*100
+    plot(f_rh, freq=FALSE, col = "#00563f", labels = TRUE)
   })
   
   # Change Theme
@@ -890,7 +1193,6 @@ server <- function(input, output, session) {
       if (isTRUE(input$dark_mode)) light else dark
     )
   }) 
-  
 }
 
 # Run the app ----
