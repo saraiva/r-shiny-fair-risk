@@ -16,6 +16,7 @@ Within the application you can select to determine the likelihood range directly
 The inherent risk results are not provided when evaluating likelihood directly due to the inherent risk being a product of:
   - Increasing the threat event frequency by 20% (assumes increased threat activity in the absences of controls)
   - Setting the vulnerability percentage to 95% (assumes there are some controls (5%) that are outside of the control of the organization)
+
 These values were set somewhat arbitrarily, but the 95% vulnerability percentage is equivelent to a threat capability of 1% - 99% and a control strength of 1% - 1%.
 
 To use the Shiny applications you will need:
