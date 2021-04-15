@@ -818,7 +818,7 @@ server <- function(input, output, session) {
     }
   })
   ## Assumes the Inherent Vulnerability level is 90%
-  in_vuln <- 0.95
+  in_vuln <- 0.9
   # Calculate the Current Residual Primary Likelihood (LKH)
   lkh_temp1 <- reactive({
     tef() * as.vector(vuln())
@@ -839,7 +839,7 @@ server <- function(input, output, session) {
   })
   ## Assumes that the Threat Event Frequency increases 20% in the absense of controls
   in_tef <- reactive({
-    tef() * 1.2
+    tef() * 1.1
   })
   in_lkh <- reactive({
     #in_tef() * in_vuln
@@ -852,7 +852,7 @@ server <- function(input, output, session) {
   })
   ### Assumes that the Primary Impact increases 20% in the absence of controls
   in_pi <- reactive({
-    pi() * 1.2
+    pi() * 1.1
   })
   ### The Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   sl <- reactive({
@@ -864,7 +864,7 @@ server <- function(input, output, session) {
   })
   ### Inherent Secondary Impact
   in_si <- reactive({
-    si() * 1.14
+    si() * 0.99
   })
   # Inherent Impact
   in_ipt <- reactive({
@@ -1139,7 +1139,7 @@ server <- function(input, output, session) {
   output$f_lkh_hist <- renderPlot({
     req(f_lkh())
     par(xpd=TRUE)
-    hist(f_lkh(), col = "#00563f",  breaks = lb(), labels = TRUE)
+    hist(f_lkh(), col = "#00563f",  breaks = f_lb(), labels = TRUE)
   })
   
   output$f_ipt_sum <- renderPrint({
@@ -1154,7 +1154,7 @@ server <- function(input, output, session) {
   output$f_ipt_hist <- renderPlot({
     req(ipt())
     par(xpd=TRUE)
-    hist(ipt(), col = "#00563f",  breaks = ib(), labels = TRUE)
+    hist(ipt(), col = "#00563f",  breaks = f_ib(), labels = TRUE)
   })
   # Future Residual Annual Loss Expectancy Summary
   output$f_rale_sum <- renderPrint({
@@ -1175,7 +1175,7 @@ server <- function(input, output, session) {
   output$f_rale_hist_1 <- renderPlot({
     req(f_rale())
     par(xpd=TRUE)
-    hist(f_rale(), col = "#00563f",  breaks = rab(), labels = TRUE)
+    hist(f_rale(), col = "#00563f",  breaks = f_rab(), labels = TRUE)
   })
   
   output$f_rale_hist_2 <- renderPlot({
