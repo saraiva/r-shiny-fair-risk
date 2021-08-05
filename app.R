@@ -514,7 +514,7 @@ ui <- fluidPage(
     ),
     
     fluidRow(  
-      h4("- Reputational Advantage")
+      h4("- Reputational Damage")
     ),
     
     column(4, 
