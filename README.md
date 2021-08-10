@@ -5,7 +5,7 @@ Mostly leverages lognormal distributions for calculating various distributions t
 
 Distributions are used to calculate the various ranges of possible outcomes and are then combined to determine a final distribution of loss events.
 
-The model provides two result:
+The model provides three sets of results:
   - Inherent Likelihood, Impact and Risk
   - Current Residual Likelihood, Impact and Risk
   - Future Residual Likelihood, Impact and Risk
@@ -23,6 +23,6 @@ To use the Shiny applications you will need:
   - Rstudio (so far have only tested with Version 1.3.1093)
   - R (so far have only tested with Version 4.0.4)
 
-Open the app.R file in Rsudio and click the Run App button in the top right corner of the code editing pane.
+Open the app.R file in RStudio and click the Run App button in the top right corner of the code editing pane.
 
-The application is written to be reactive, therefore values will update as other values are changed.
+The application is written to be reactive, therefore values will update dynamically as other values are changed.
