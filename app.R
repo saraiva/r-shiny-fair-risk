@@ -48,6 +48,15 @@ ui <- fluidPage(
                      value = Sys.Date()))
   ),
   
+  checkboxGroupInput("threatcheckGroup", label = h4("Threat Type(s) In Scope"), 
+                     choices = list("External Deliberate" = 1, "External Not Deliberate" = 2, "Internal Deliberate" = 3, "Internal Not Deliberate" = 4)),
+
+  checkboxGroupInput("vulncheckGroup", label = h4("Vulnerability Type(s) In Scope"), 
+                     choices = list("People" = 1, "Process" = 2, "Technology" = 3, "Partners" = 4)),
+  
+  checkboxGroupInput("losscheckGroup", label = h4("Impact/Loss Type(s) In Scope"), 
+                     choices = list("Confidentiality" = 1, "Integrity" = 2, "Availability" = 3, "Reliability" = 4)),
+    
   fluidRow(
     column(4,
            textAreaInput("text", h3("Risk Analysis Description"), width = '100%',
@@ -66,18 +75,18 @@ ui <- fluidPage(
   
   fluidRow(
     
-    h5("Note: Estimates below should be made with 90% confidence. This means roughly the bottom and top 5% of possible cases can be ignored."),
+    h5("Note: Estimates below should be made with 90% confidence. This means roughly the bottom and top 5% of possible cases can be excluded."),
     
   ),
   
   fluidRow(
-    h2("Likelihood/Frequency")
+    h2("Loss Event Frequency (LEF) / Likelihood")
   ),
   
   fluidRow(
-    radioButtons("lkh_radio", h4("- Likelihood Methods"),
+    radioButtons("lkh_radio", h4("- LEF/Likelihood Methods"),
                  choices = list("Threat Event Frequency and Vulnerability" = 1,
-                                "Direct Likelihood - No Inherent or Future Risk Calculations Performed" = 2),selected = 1, width = '100%')
+                                "Direct LEF/Likelihood - No Inherent or Future Risk Calculations Performed" = 2),selected = 1, width = '100%')
   ),
   conditionalPanel(
     condition = "input.lkh_radio == 1",
@@ -112,7 +121,7 @@ ui <- fluidPage(
              formatNumericInput(
                inputId = "tef_max_num",
                label = "Threat Event Frequency - Maximum",
-               value = 10,
+               value = 100,
                format = "dotDecimalCharCommaSeparator",
                width = "100%",
                align = "right"
@@ -133,7 +142,7 @@ ui <- fluidPage(
     
     fluidRow(
       radioButtons("vuln_radio", h4("- Vulnerability Methods"),
-                   choices = list("Threat Capability and Control Strength" = 1,
+                   choices = list("Threat Capability and Resistance/Control Strength" = 1,
                                   "Direct Vulnerability Percentage" = 2),selected = 1)
     ),
     conditionalPanel(
@@ -144,14 +153,14 @@ ui <- fluidPage(
       ),
       
       fluidRow(  
-        h5("- Current Control Strength - the current percentile range of resistence strength the organization's controls have to Threats.")
+        h5("- Current Resistance/Control Strength - the current percentile range of resistence strength the organization's controls have to Threats.")
       ),
 
       conditionalPanel(
         condition = "input.future_radio == 2",
         
         fluidRow(  
-            h5("- Future Control Strength - the percentile range of resistence strength the organization's controls will have to Threats after additional controls are implemented.")
+            h5("- Future Resistance/Control Strength - the percentile range of resistence strength the organization's controls will have to Threats after additional controls are implemented.")
           )
       ),
       
@@ -229,12 +238,12 @@ ui <- fluidPage(
     condition = "input.lkh_radio == 2",
     
     fluidRow(  
-      h5("- Likelihood - the percentage of event when the Impact will be realized.")
+      h5("- LEF/Likelihood - the percentage of event when the Impact will be realized.")
     ),
     
     fluidRow(
       column(4,
-             textAreaInput("text", h4("Likelihood Description"), width = '100%',
+             textAreaInput("text", h4("LEF/Likelihood Description"), width = '100%',
                            value = "Likelihood..."))
     ),
     
@@ -264,34 +273,34 @@ ui <- fluidPage(
   ),
   
   fluidRow(
-    h2("Impact/Magnitude")
+    h2("Impact / Loss Magnitude")
   ),
   
   fluidRow(
-    h3("Primary Impact")
+    h3("Primary Impact/Loss")
   ),
   
   fluidRow(  
-    h5("- Those Impacts incurred with every partially or wholly successful event.")
+    h5("- Those Impacts/Losses incurred with every partially or wholly successful event.")
   ),
   
   fluidRow(  
-    h5("- Impacts may include: (1) Response/Replacement, (2) Lost Productivity, (3) Competative Advantage, (4) Reputational Damage, and (5) Legal/Regulatory.")
+    h5("- Impacts/Losses may include: (1) Response/Replacement, (2) Lost Productivity, (3) Competative Advantage, (4) Reputational Damage, and (5) Legal/Regulatory.")
   ),
   
   fluidRow(
     column(4,
-           textAreaInput("text", h4("Primary Impact Description"), width = '100%',
+           textAreaInput("text", h4("Primary Impact/Loss Description"), width = '100%',
                          value = "Impact..."))
   ),
   
   fluidRow(
     
     column(4,
-           currencyInput("pi_min_num", "Current Primary Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
+           currencyInput("pi_min_num", "Current Primary Impact/Loss - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
     ),
     column(4,
-           currencyInput("pi_max_num", "Current Primary Impact - Maximum ($)", value = 10000, format = "dollar", width = "100%", align = "right")
+           currencyInput("pi_max_num", "Current Primary Impact/Loss - Maximum ($)", value = 10000, format = "dollar", width = "100%", align = "right")
     )
   ), 
   
@@ -301,35 +310,35 @@ ui <- fluidPage(
       fluidRow(
         
         column(4,
-               currencyInput("f_pi_min_num", "Future Primary Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
+               currencyInput("f_pi_min_num", "Future Primary Impact/Loss - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
         ),
         column(4,
-               currencyInput("f_pi_max_num", "Future Primary Impact - Maximum ($)", value = 10000, format = "dollar", width = "100%", align = "right")
+               currencyInput("f_pi_max_num", "Future Primary Impact/Loss - Maximum ($)", value = 5000, format = "dollar", width = "100%", align = "right")
         )
       )
   ),
   
   fluidRow(
-    h3("Secondary Impact")
+    h3("Secondary Impact/Loss")
   ),
   
   fluidRow(  
-    h5("- Those Impacts (Secondary Impact) incurred only a certain percentage (Secondary Impact Likelihood) of the time.")
+    h5("- Those Impacts/Losses (Secondary Impact) incurred only a certain percentage (Secondary Impact Likelihood) of the time.")
   ),
   
   fluidRow(  
-    h5("- Impacts may include: (1) Response/Replacement, (2) Lost Productivity, (3) Competitive Advantage, (4) Reputational Damage, and (5) Legal/Regulatory.")
+    h5("- Impacts/Losses may include: (1) Response/Replacement, (2) Lost Productivity, (3) Competitive Advantage, (4) Reputational Damage, and (5) Legal/Regulatory.")
   ),
   
   fluidRow(
-    radioButtons("sl_radio", h4("- Secondary Loss Methods"),
-                 choices = list("Overall Secondary Loss" = 1,
-                                "Secondary Loss by Category" = 2),selected = 1)
+    radioButtons("sl_radio", h4("- Secondary Impact/Loss Calculation Methods"),
+                 choices = list("Overall Secondary Impact/Loss" = 1,
+                                "Secondary Impact/Loss by Category" = 2),selected = 1)
   ),
   
   fluidRow(
     column(4,
-           textAreaInput("text", h4("Secondary Impact Description"), width = '100%',
+           textAreaInput("text", h4("Secondary Impact/Loss Description"), width = '100%',
                          value = "Impact..."))
   ),
   
@@ -339,7 +348,7 @@ ui <- fluidPage(
     fluidRow(
       
       column(4, 
-             sliderInput("oa_sl_slider", h4("- Current Secondary Loss Likelihood (%)"), width = '100%',
+             sliderInput("oa_sl_slider", h4("- Current Secondary Impact/Loss Likelihood (%)"), width = '100%',
                          min = 0.1, max = 100, value = c(1, 5))
       )
     ),
@@ -347,10 +356,10 @@ ui <- fluidPage(
     fluidRow(
       
       column(4,
-             currencyInput("oa_si_min_num", "Current Secondary Loss Impact - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("oa_si_min_num", "Current Secondary Impact/Loss - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("oa_si_max_num", "Current Secondary Loss Impact - Maximum ($)", value = 50000, format = "dollar", width = "100%", align = "right")
+             currencyInput("oa_si_max_num", "Current Secondary Impact/Loss - Maximum ($)", value = 50000, format = "dollar", width = "100%", align = "right")
       ),
       
     ),
@@ -361,7 +370,7 @@ ui <- fluidPage(
         fluidRow(
           
           column(4, 
-                 sliderInput("f_oa_sl_slider", h4("- Future Secondary Loss Likelihood (%)"), width = '100%',
+                 sliderInput("f_oa_sl_slider", h4("- Future Secondary Impact/Loss Likelihood (%)"), width = '100%',
                              min = 0.1, max = 100, value = c(1, 2))
           )
         ),
@@ -369,10 +378,10 @@ ui <- fluidPage(
         fluidRow(
           
           column(4,
-                 currencyInput("f_oa_si_min_num", "Future Secondary Loss Impact - Minimum ($)", value = 2500, format = "dollar", width = "100%", align = "right"),
+                 currencyInput("f_oa_si_min_num", "Future Secondary Impact/Loss - Minimum ($)", value = 2500, format = "dollar", width = "100%", align = "right"),
           ),
           column(4,
-                 currencyInput("f_oa_si_max_num", "Future Secondary Loss Impact - Maximum ($)", value = 25000, format = "dollar", width = "100%", align = "right")
+                 currencyInput("f_oa_si_max_num", "Future Secondary Impact/Loss - Maximum ($)", value = 25000, format = "dollar", width = "100%", align = "right")
           )
         )
     ),
@@ -397,10 +406,10 @@ ui <- fluidPage(
     fluidRow(
       
       column(4,
-             currencyInput("rr_si_min_num", "Current Response/Replacement Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("rr_si_min_num", "Current Response/Replacement Impact/Loss - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("rr_si_max_num", "Current Response/Replacement Impact - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
+             currencyInput("rr_si_max_num", "Current Response/Replacement Impact/Loss - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
       ),
       
     ),
@@ -419,10 +428,10 @@ ui <- fluidPage(
         fluidRow(
           
           column(4,
-                 currencyInput("f_rr_si_min_num", "Future Response/Replacement Impact - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
+                 currencyInput("f_rr_si_min_num", "Future Response/Replacement Impact/Loss - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
           ),
           column(4,
-                 currencyInput("f_rr_si_max_num", "Future Response/Replacement Impact - Maximum ($)", value = 1000, format = "dollar", width = "100%", align = "right")
+                 currencyInput("f_rr_si_max_num", "Future Response/Replacement Impact/Loss - Maximum ($)", value = 1000, format = "dollar", width = "100%", align = "right")
           ),
           
         )
@@ -444,10 +453,10 @@ ui <- fluidPage(
     fluidRow(
       
       column(4,
-             currencyInput("lp_si_min_num", "Current Lost Productivity Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("lp_si_min_num", "Current Lost Productivity Impact/Loss - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("lp_si_max_num", "Current Lost Productivity - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
+             currencyInput("lp_si_max_num", "Current Lost Productivity Imapct/Loss - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
       ),
       
     ),
@@ -466,10 +475,10 @@ ui <- fluidPage(
         fluidRow(
           
           column(4,
-                 currencyInput("f_lp_si_min_num", "Future Lost Productivity Impact - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
+                 currencyInput("f_lp_si_min_num", "Future Lost Productivity Impact/Loss - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
           ),
           column(4,
-                 currencyInput("f_lp_si_max_num", "Future Lost Productivity - Maximum ($)", value = 1000, format = "dollar", width = "100%", align = "right")
+                 currencyInput("f_lp_si_max_num", "Future Lost Productivity Impact/Loss - Maximum ($)", value = 1000, format = "dollar", width = "100%", align = "right")
           ),
           
         )
@@ -487,10 +496,10 @@ ui <- fluidPage(
     fluidRow(
       
       column(4,
-             currencyInput("ca_si_min_num", "Current Competitive Advantage Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("ca_si_min_num", "Current Competitive Advantage Impact/Loss - Minimum ($)", value = 10000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("ca_si_max_num", "Current Competitive Advantage Impact - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
+             currencyInput("ca_si_max_num", "Current Competitive Advantage Impact/Loss - Maximum ($)", value = 20000, format = "dollar", width = "100%", align = "right")
       ),
     ),
     
@@ -505,10 +514,10 @@ ui <- fluidPage(
         fluidRow(
           
           column(4,
-                 currencyInput("f_ca_si_min_num", "Future Competitive Advantage Impact - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
+                 currencyInput("f_ca_si_min_num", "Future Competitive Advantage Impact/Loss - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
           ),
           column(4,
-                 currencyInput("f_ca_si_max_num", "Future Competitive Advantage Impact - Maximum ($)", value = 1000, format = "dollar", width = "100%", align = "right")
+                 currencyInput("f_ca_si_max_num", "Future Competitive Advantage Impact/Loss - Maximum ($)", value = 10000, format = "dollar", width = "100%", align = "right")
           ),
         )
     ),
@@ -525,10 +534,10 @@ ui <- fluidPage(
     fluidRow(
       
       column(4,
-             currencyInput("rd_si_min_num", "Current Reputational Damage Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("rd_si_min_num", "Current Reputational Damage Impact/Loss - Minimum ($)", value = 10000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("rd_si_max_num", "Current Reputational Damage - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
+             currencyInput("rd_si_max_num", "Current Reputational Damage Impact/Loss - Maximum ($)", value = 200000, format = "dollar", width = "100%", align = "right")
       ),
     ),
     
@@ -543,10 +552,10 @@ ui <- fluidPage(
         fluidRow(
           
           column(4,
-                 currencyInput("f_rd_si_min_num", "Future Reputational Damage Impact - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
+                 currencyInput("f_rd_si_min_num", "Future Reputational Damage Impact/Loss - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
           ),
           column(4,
-                 currencyInput("f_rd_si_max_num", "Future Reputational Damage - Maximum ($)", value = 1000, format = "dollar", width = "100%", align = "right")
+                 currencyInput("f_rd_si_max_num", "Future Reputational Damage Impact/Loss - Maximum ($)", value = 100000, format = "dollar", width = "100%", align = "right")
           ),
         )
     ),
@@ -563,10 +572,10 @@ ui <- fluidPage(
     fluidRow(
       
       column(4,
-             currencyInput("lr_si_min_num", "Current Legal/Regulatory Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("lr_si_min_num", "Current Legal/Regulatory Impact/Loss - Minimum ($)", value = 10000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("lr_si_max_num", "Current Legal/Regulatory - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
+             currencyInput("lr_si_max_num", "Current Legal/Regulatory Impact/Loss - Maximum ($)", value = 200000, format = "dollar", width = "100%", align = "right")
       ),
     ),
   
@@ -581,10 +590,10 @@ ui <- fluidPage(
       fluidRow(
         
         column(4,
-               currencyInput("f_lr_si_min_num", "Future Legal/Regulatory Impact - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
+               currencyInput("f_lr_si_min_num", "Future Legal/Regulatory Impact/Loss - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
         ),
         column(4,
-               currencyInput("f_lr_si_max_num", "Future Legal/Regulatory - Maximum ($)", value = 1000, format = "dollar", width = "100%", align = "right")
+               currencyInput("f_lr_si_max_num", "Future Legal/Regulatory Impact/Loss - Maximum ($)", value = 100000, format = "dollar", width = "100%", align = "right")
         ),
       )
   ),
@@ -598,7 +607,7 @@ ui <- fluidPage(
     ),
     
     fluidRow(
-      h2("Inherent Likelihood Summary")
+      h2("Inherent LEF/Likelihood Summary")
     ),
     
     fluidRow(
@@ -618,7 +627,7 @@ ui <- fluidPage(
     
     fluidRow(
       
-      h2("Inherent Impact Summary")
+      h2("Inherent Impact/Loss Summary")
       
     ),
     
@@ -689,7 +698,7 @@ ui <- fluidPage(
   
   fluidRow(
     
-    h2("Current Residual Likelihood Summary")
+    h2("Current Residual LEF/Likelihood Summary")
     
   ),
   
@@ -710,7 +719,7 @@ ui <- fluidPage(
   
   fluidRow(
     
-    h2("Current Residual Impact Summary")
+    h2("Current Residual Impact/Loss Summary")
     
   ),
   
@@ -788,7 +797,7 @@ ui <- fluidPage(
         
         fluidRow(
           
-          h2("Future Residual Likelihood Summary")
+          h2("Future Residual LEF/Likelihood Summary")
           
         ),
         
@@ -809,7 +818,7 @@ ui <- fluidPage(
         
         fluidRow(
           
-          h2("Future Residual Impact Summary")
+          h2("Future Residual Impact/Loss Summary")
           
         ),
         
