@@ -4,7 +4,7 @@ Shiny application that can estimate risk using factor analysis of information ri
  - Open FAIR Risk Taxonomy (O-RT) - https://publications.opengroup.org/editors-picks/open-fair/c20b
  - Open FAIR Risk Analysis (O-RA) - https://publications.opengroup.org/editors-picks/open-fair/c20a
 
-Mostly leverages lognormal distributions for calculating various distributions to reflect the possiblility for the rare high likelihood and/or impact events. This selection was influenced by the book _How to Measure Anything in Cybersecurity Risk_ (https://www.howtomeasureanything.com/cybersecurity/) by Douglas Hubbard. It also simplifies the range estimates by only requiring the estimation of two values instead of three and a confidence. It also avoids having to account for the extreme low and high (black swans) probability events.
+Mostly leverages lognormal distributions for calculating various distributions to reflect the possiblility for the rare high likelihood and/or impact events. This selection was influenced by the book _How to Measure Anything in Cybersecurity Risk_ (https://www.howtomeasureanything.com/cybersecurity/) by Douglas Hubbard. It also simplifies the range estimates by only requiring the estimation of two values instead of three and a confidence as required when utilizing PERT distributions. It also avoids having to account for the extreme low and high (black swans) probability events, since the low and high values are estimated with 90% confidence, thereby avoiding the bottom and top 5% of cases.
 
 Distributions are used to calculate the various ranges of possible outcomes and are then combined to determine a final distribution of loss events.
 
