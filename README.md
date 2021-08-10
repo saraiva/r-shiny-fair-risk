@@ -1,5 +1,5 @@
 # r-shiny-fair-risk
-Shiny application that can estimate risk using factor analysis for information risk (FAIR) risk analysis methods as defined by The Open Group (https://www.opengroup.org/).
+Shiny application that can estimate risk using factor analysis of information risk (FAIR) risk analysis methods as defined by The Open Group (https://www.opengroup.org/).
 
  - Open FAIR Risk Taxonomy (O-RT) - https://publications.opengroup.org/editors-picks/open-fair/c20b
  - Open FAIR Risk Analysis (O-RA) - https://publications.opengroup.org/editors-picks/open-fair/c20a
