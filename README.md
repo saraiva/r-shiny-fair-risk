@@ -1,7 +1,10 @@
 # r-shiny-fair-risk
-Shiny application that can estimate risk using factor analysis for information risk (FAIR) risk analysis methods.
+Shiny application that can estimate risk using factor analysis for information risk (FAIR) risk analysis methods as defined by The Open Group (https://www.opengroup.org/).
 
-Mostly leverages lognormal distributions for calculating various distributions to reflect the possiblility for the rare high likelihood and/or impact event. This selection was influenced by the book _How to Measure Anything in Cybersecurity Risk_(https://www.howtomeasureanything.com/cybersecurity/) by Douglas Hubbard. It also simplifies the range estimates by only requiring the estimation of two values instead of three and a confidence. It also avoids having to account for the extreme low and high (black swans) probability events.
+Open FAIR Risk Taxonomy (O-RT) - https://publications.opengroup.org/editors-picks/open-fair/c20b
+Open FAIR Risk Analysis (O-RA) - https://publications.opengroup.org/editors-picks/open-fair/c20a
+
+Mostly leverages lognormal distributions for calculating various distributions to reflect the possiblility for the rare high likelihood and/or impact event. This selection was influenced by the book _How to Measure Anything in Cybersecurity Risk_ (https://www.howtomeasureanything.com/cybersecurity/) by Douglas Hubbard. It also simplifies the range estimates by only requiring the estimation of two values instead of three and a confidence. It also avoids having to account for the extreme low and high (black swans) probability events.
 
 Distributions are used to calculate the various ranges of possible outcomes and are then combined to determine a final distribution of loss events.
 
@@ -20,8 +23,8 @@ The inherent risk results are not provided when evaluating Likelihood directly d
 These values were set somewhat arbitrarily, but the 95% VULN percentage is equivelent to a TCAP of 1% - 99% and a RS of 1% - 1%.
 
 To use the Shiny applications you will need:
-  - Rstudio (so far have only tested with Version 1.3.1093)
-  - R (so far have only tested with Version 4.0.4)
+  - Rstudio (so far have only tested with Version 1.3.1093) - https://www.rstudio.com
+  - R (so far have only tested with Version 4.0.4) - https://cran.rstudio.com/
 
 Open the app.R file in RStudio and click the Run App button in the top right corner of the code editing pane.
 
