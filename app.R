@@ -21,7 +21,7 @@ ui <- fluidPage(
     )
   ),
   
-  titlePanel("Factor Analysis of Information Risk (FAIR) Analysis"),
+  titlePanel("Factor Analysis of Information Risk (FAIR) Risk Analysis Tool"),
   
   fluidRow(
     column(4,
