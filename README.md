@@ -26,3 +26,5 @@ To use the Shiny applications you will need:
 Open the app.R file in RStudio and click the Run App button in the top right corner of the code editing pane.
 
 The application is written to be reactive, therefore values will update dynamically as other values are changed.
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
