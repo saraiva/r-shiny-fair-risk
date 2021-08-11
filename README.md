@@ -4,14 +4,14 @@ Shiny application that can estimate risk using factor analysis of information ri
  - Open FAIR Risk Taxonomy (O-RT) - https://publications.opengroup.org/editors-picks/open-fair/c20b
  - Open FAIR Risk Analysis (O-RA) - https://publications.opengroup.org/editors-picks/open-fair/c20a
 
-Mostly leverages lognormal distributions for calculating various distributions to reflect the possiblility for the rare high likelihood and/or impact events. This selection was influenced by the book _How to Measure Anything in Cybersecurity Risk_ (https://www.howtomeasureanything.com/cybersecurity/) by Douglas Hubbard. It also simplifies the range estimates by only requiring the estimation of two values instead of three and a confidence as required when utilizing PERT distributions. It also avoids having to account for the extreme low and high (black swans) probability events, since the low and high values are estimated with 90% confidence, thereby avoiding the bottom and top 5% of cases.
+Mostly leverages lognormal distributions for calculating various distributions to reflect the probability of rare high likelihood and/or impact events. This selection was influenced by the book _How to Measure Anything in Cybersecurity Risk_ (https://www.howtomeasureanything.com/cybersecurity/) by Douglas Hubbard. It also simplifies the range estimates by only requiring the estimation of two values instead of three and a confidence as required when utilizing PERT distributions. It also avoids having to account for the extreme low and high (black swan) probability events, since the low and high probablity estimates only need to be made with 90% confidence, thereby avoiding the bottom and top 5% of cases.
 
 Distributions are used to calculate the various ranges of possible outcomes and are then combined to determine a final distribution of loss events.
 
 The model provides three sets of results:
-  - Inherent Loss Event Frequency (LEF)/Likelihood, Loss Magnitude (Loss)/Impact and Risk (1 and 10 year)
-  - Current LEF/Residual Likelihood, Loss/Impact and Risk (1 and 10 year)
-  - Future Residual LEF/Likelihood, Loss/Impact and Risk (1 and 10 year)
+  - Inherent (before controls) Loss Event Frequency (LEF)/Likelihood, Loss Magnitude (Loss)/Impact and Risk (1 and 10 year)
+  - Current Residual (with existing controls) LEF/Likelihood, Loss/Impact and Risk (1 and 10 year)
+  - Future Residual (after additional controls) LEF/Likelihood, Loss/Impact and Risk (1 and 10 year)
 
 Within the application you can select to determine the LEF/likelihood range directly or indirectly, via threat event frequency (TEF), threat capability (TCAP), and resistance (control) strength (RS).
   - You may also determine Likelihood using TEF and vulnerability (VULN), without the use of TCAP and RS.
@@ -28,9 +28,9 @@ To use the Shiny applications you will need:
 
 Open the app.R file in RStudio and click the Run App button in the top right corner of the code editing pane.
 
-The application is written to be reactive, therefore values will update dynamically as other values are changed.
+The application is written to be reactive, therefore result values will update dynamically as other values are changed.
 
 A demo version of the application can be viewed at SinyApps.io: https://jconnors.shinyapps.io/r-shiny-fair-risk-github/
- Note: this is posted under the free tier so excessive use with result in the application becoming inaccessible.
+- Note: this is posted under the free tier so excessive (>10 hours per month) use will result in the application becoming inaccessible.
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
