@@ -33,4 +33,8 @@ The application is written to be reactive, therefore result values will update d
 A demo version of the application can be viewed at SinyApps.io: https://jconnors.shinyapps.io/r-shiny-fair-risk-github/
 - Note: this is posted under the free tier so excessive (>10 hours per month) use will result in the application becoming inaccessible.
 
+Shiny Application Screen:
+
+![image](https://user-images.githubusercontent.com/79239127/129280878-405b9b71-3613-4940-ab23-e64cd6e26f3e.png)
+
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
