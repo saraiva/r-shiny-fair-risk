@@ -660,7 +660,12 @@ ui <- fluidPage(
     
     fluidRow(
       
-      verbatimTextOutput("in_ale_sum"),
+      verbatimTextOutput("in_ale_sum")
+      
+    ),  
+    
+    fluidRow(
+      
       verbatimTextOutput("in_ale_5"),
       verbatimTextOutput("in_ale_10"),
       verbatimTextOutput("in_ale_mode"),
@@ -751,10 +756,15 @@ ui <- fluidPage(
     h4("Current Residual Annual Loss Expectancy (1 year)")
     
   ),
+
+  fluidRow(
+  
+    verbatimTextOutput("rale_sum")
+  
+  ),
   
   fluidRow(
     
-    verbatimTextOutput("rale_sum"),
     verbatimTextOutput("rale_5"),
     verbatimTextOutput("rale_10"),
     verbatimTextOutput("rale_mode"),
@@ -852,10 +862,15 @@ ui <- fluidPage(
           h4("Future Residual Annual Loss Expectancy (1 year)")
           
         ),
+
+        fluidRow(
         
+          verbatimTextOutput("f_rale_sum")
+        
+        ),
+              
         fluidRow(
           
-          verbatimTextOutput("f_rale_sum"),
           verbatimTextOutput("f_rale_5"),
           verbatimTextOutput("f_rale_10"),
           verbatimTextOutput("f_rale_mode"),
