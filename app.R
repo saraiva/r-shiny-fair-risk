@@ -661,9 +661,11 @@ ui <- fluidPage(
     fluidRow(
       
       verbatimTextOutput("in_ale_sum"),
+      verbatimTextOutput("in_ale_5"),
       verbatimTextOutput("in_ale_10"),
       verbatimTextOutput("in_ale_mode"),
       verbatimTextOutput("in_ale_90"),
+      verbatimTextOutput("in_ale_95"),
       verbatimTextOutput("in_ale_99")
       
     ),  
@@ -753,9 +755,11 @@ ui <- fluidPage(
   fluidRow(
     
     verbatimTextOutput("rale_sum"),
+    verbatimTextOutput("rale_5"),
     verbatimTextOutput("rale_10"),
     verbatimTextOutput("rale_mode"),
     verbatimTextOutput("rale_90"),
+    verbatimTextOutput("rale_95"),
     verbatimTextOutput("rale_99")
     
   ),
@@ -852,9 +856,11 @@ ui <- fluidPage(
         fluidRow(
           
           verbatimTextOutput("f_rale_sum"),
+          verbatimTextOutput("f_rale_5"),
           verbatimTextOutput("f_rale_10"),
           verbatimTextOutput("f_rale_mode"),
           verbatimTextOutput("f_rale_90"),
+          verbatimTextOutput("f_rale_95"),
           verbatimTextOutput("f_rale_99")
           
         ),
@@ -1931,6 +1937,11 @@ server <- function(input, output, session) {
     uniqv[which.max(tabulate(match(v, uniqv)))]
   }
   # Residual Annual Loss Expectancy Percentile Calculations
+  output$rale_5 <- renderPrint({
+    print("Fifth Percentile")
+    dollar(c(quantile(rale(), maxDecimals = 4, c(0.05))))
+  })
+  # Residual Annual Loss Expectancy Percentile Calculations
   output$rale_10 <- renderPrint({
     print("Tenth Percentile")
     dollar(c(quantile(rale(), maxDecimals = 4, c(0.1))))
@@ -1943,6 +1954,11 @@ server <- function(input, output, session) {
   output$rale_90 <- renderPrint({
     print("Ninetieth Percentile")  
     dollar(c(quantile(rale(), maxDecimals = 4, c(0.9))))
+  })
+  # Residual Annual Loss Expectancy Percentile Calculations
+  output$rale_95 <- renderPrint({
+    print("Ninty-Fifth Percentile")
+    dollar(c(quantile(rale(), maxDecimals = 4, c(0.95))))
   })
   output$rale_99 <- renderPrint({
     print("Ninety-Ninth Percentile")  
@@ -1962,6 +1978,11 @@ server <- function(input, output, session) {
     dollar(c(quantile(rale_ten(), maxDecimals = 4, c(0.99))))
   })
   # Future Residual Annual Loss Expectancy Percentile Calculations
+  output$f_rale_5 <- renderPrint({
+    print("Fifth Percentile")
+    dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.05))))
+  })
+  # Future Residual Annual Loss Expectancy Percentile Calculations
   output$f_rale_10 <- renderPrint({
     print("Tenth Percentile")
     dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.1))))
@@ -1974,6 +1995,11 @@ server <- function(input, output, session) {
   output$f_rale_90 <- renderPrint({
     print("Ninetieth Percentile")  
     dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.9))))
+  })
+  # Future Residual Annual Loss Expectancy Percentile Calculations
+  output$f_rale_95 <- renderPrint({
+    print("Ninty-Fifth Percentile")
+    dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.95))))
   })
   output$f_rale_99 <- renderPrint({
     print("Ninety-Ninth Percentile")  
@@ -1997,6 +2023,11 @@ server <- function(input, output, session) {
     print("Tenth Percentile")
     dollar(c(quantile(in_ale(), maxDecimals = 4, c(0.1))))
   })
+  # Inherent Annual Loss Expectancy Percentile Calculations
+  output$in_ale_5 <- renderPrint({
+    print("Fifth Percentile")
+    dollar(c(quantile(in_ale(), maxDecimals = 4, c(0.05))))
+  })
   # Inherent Annual Loss Expectancy Most Likely (Mode)
   output$in_ale_mode <- renderPrint({
     print("Most Likely")
@@ -2005,6 +2036,11 @@ server <- function(input, output, session) {
   output$in_ale_90 <- renderPrint({
     print("Ninetieth Percentile")
     dollar(c(quantile(in_ale(), maxDecimals = 4, c(0.9))))
+  })
+  # Inherent Annual Loss Expectancy Percentile Calculations
+  output$in_ale_95 <- renderPrint({
+    print("Ninty-Fifth Percentile")
+    dollar(c(quantile(in_ale(), maxDecimals = 4, c(0.95))))
   })
   output$in_ale_99 <- renderPrint({
     print("Ninety-Ninth Percentile")
