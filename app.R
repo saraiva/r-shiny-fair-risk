@@ -21,7 +21,7 @@ ui <- fluidPage(
     )
   ),
   
-  titlePanel("Factor Analysis of Information Risk (FAIR) Risk Analysis Tool"),
+  titlePanel("Factor Analysis for Information Risk (FAIR) Analysis"),
   
   fluidRow(
     column(4,
@@ -48,15 +48,6 @@ ui <- fluidPage(
                      value = Sys.Date()))
   ),
   
-  checkboxGroupInput("threatcheckGroup", label = h4("Threat Type(s) In Scope"), 
-                     choices = list("External Deliberate" = 1, "External Not Deliberate" = 2, "Internal Deliberate" = 3, "Internal Not Deliberate" = 4)),
-
-  checkboxGroupInput("vulncheckGroup", label = h4("Vulnerability Type(s) In Scope"), 
-                     choices = list("People" = 1, "Process" = 2, "Technology" = 3, "Partners" = 4)),
-  
-  checkboxGroupInput("losscheckGroup", label = h4("Impact/Loss Type(s) In Scope"), 
-                     choices = list("Confidentiality" = 1, "Integrity" = 2, "Availability" = 3, "Reliability" = 4)),
-    
   fluidRow(
     column(4,
            textAreaInput("text", h3("Risk Analysis Description"), width = '100%',
@@ -75,18 +66,18 @@ ui <- fluidPage(
   
   fluidRow(
     
-    h5("Note: Estimates below should be made with 90% confidence. This means roughly the bottom and top 5% of possible cases can be excluded."),
+    h5("Note: Estimates below should be made with 90% confidence. This means roughly the bottom and top 5% of possible cases can be ignored."),
     
   ),
   
   fluidRow(
-    h2("Loss Event Frequency (LEF) / Likelihood")
+    h2("Likelihood/Frequency")
   ),
   
   fluidRow(
-    radioButtons("lkh_radio", h4("- LEF/Likelihood Methods"),
+    radioButtons("lkh_radio", h4("- Likelihood Methods"),
                  choices = list("Threat Event Frequency and Vulnerability" = 1,
-                                "Direct LEF/Likelihood - No Inherent or Future Risk Calculations Performed" = 2),selected = 1, width = '100%')
+                                "Direct Likelihood - No Inherent or Future Risk Calculations Performed" = 2),selected = 1, width = '100%')
   ),
   conditionalPanel(
     condition = "input.lkh_radio == 1",
@@ -121,7 +112,7 @@ ui <- fluidPage(
              formatNumericInput(
                inputId = "tef_max_num",
                label = "Threat Event Frequency - Maximum",
-               value = 100,
+               value = 10,
                format = "dotDecimalCharCommaSeparator",
                width = "100%",
                align = "right"
@@ -142,7 +133,7 @@ ui <- fluidPage(
     
     fluidRow(
       radioButtons("vuln_radio", h4("- Vulnerability Methods"),
-                   choices = list("Threat Capability and Resistance/Control Strength" = 1,
+                   choices = list("Threat Capability and Control Strength" = 1,
                                   "Direct Vulnerability Percentage" = 2),selected = 1)
     ),
     conditionalPanel(
@@ -153,14 +144,14 @@ ui <- fluidPage(
       ),
       
       fluidRow(  
-        h5("- Current Resistance/Control Strength - the current percentile range of resistence strength the organization's controls have to Threats.")
+        h5("- Current Control Strength - the current percentile range of resistence strength the organization's controls have to Threats.")
       ),
 
       conditionalPanel(
         condition = "input.future_radio == 2",
         
         fluidRow(  
-            h5("- Future Resistance/Control Strength - the percentile range of resistence strength the organization's controls will have to Threats after additional controls are implemented.")
+            h5("- Future Control Strength - the percentile range of resistence strength the organization's controls will have to Threats after additional controls are implemented.")
           )
       ),
       
@@ -238,12 +229,12 @@ ui <- fluidPage(
     condition = "input.lkh_radio == 2",
     
     fluidRow(  
-      h5("- LEF/Likelihood - the percentage of event when the Impact will be realized.")
+      h5("- Likelihood - the percentage of event when the Impact will be realized.")
     ),
     
     fluidRow(
       column(4,
-             textAreaInput("text", h4("LEF/Likelihood Description"), width = '100%',
+             textAreaInput("text", h4("Likelihood Description"), width = '100%',
                            value = "Likelihood..."))
     ),
     
@@ -273,34 +264,34 @@ ui <- fluidPage(
   ),
   
   fluidRow(
-    h2("Impact / Loss Magnitude")
+    h2("Impact/Magnitude")
   ),
   
   fluidRow(
-    h3("Primary Impact/Loss")
+    h3("Primary Impact")
   ),
   
   fluidRow(  
-    h5("- Those Impacts/Losses incurred with every partially or wholly successful event.")
+    h5("- Those Impacts incurred with every partially or wholly successful event.")
   ),
   
   fluidRow(  
-    h5("- Impacts/Losses may include: (1) Response/Replacement, (2) Lost Productivity, (3) Competative Advantage, (4) Reputational Damage, and (5) Legal/Regulatory.")
+    h5("- Impacts may include: (1) Response/Replacement, (2) Lost Productivity, (3) Competative Advantage, (4) Reputational Damage, and (5) Legal/Regulatory.")
   ),
   
   fluidRow(
     column(4,
-           textAreaInput("text", h4("Primary Impact/Loss Description"), width = '100%',
+           textAreaInput("text", h4("Primary Impact Description"), width = '100%',
                          value = "Impact..."))
   ),
   
   fluidRow(
     
     column(4,
-           currencyInput("pi_min_num", "Current Primary Impact/Loss - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
+           currencyInput("pi_min_num", "Current Primary Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
     ),
     column(4,
-           currencyInput("pi_max_num", "Current Primary Impact/Loss - Maximum ($)", value = 10000, format = "dollar", width = "100%", align = "right")
+           currencyInput("pi_max_num", "Current Primary Impact - Maximum ($)", value = 10000, format = "dollar", width = "100%", align = "right")
     )
   ), 
   
@@ -310,35 +301,35 @@ ui <- fluidPage(
       fluidRow(
         
         column(4,
-               currencyInput("f_pi_min_num", "Future Primary Impact/Loss - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
+               currencyInput("f_pi_min_num", "Future Primary Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
         ),
         column(4,
-               currencyInput("f_pi_max_num", "Future Primary Impact/Loss - Maximum ($)", value = 5000, format = "dollar", width = "100%", align = "right")
+               currencyInput("f_pi_max_num", "Future Primary Impact - Maximum ($)", value = 10000, format = "dollar", width = "100%", align = "right")
         )
       )
   ),
   
   fluidRow(
-    h3("Secondary Impact/Loss")
+    h3("Secondary Impact")
   ),
   
   fluidRow(  
-    h5("- Those Impacts/Losses (Secondary Impact) incurred only a certain percentage (Secondary Impact Likelihood) of the time.")
+    h5("- Those Impacts (Secondary Impact) incurred only a certain percentage (Secondary Impact Likelihood) of the time.")
   ),
   
   fluidRow(  
-    h5("- Impacts/Losses may include: (1) Response/Replacement, (2) Lost Productivity, (3) Competitive Advantage, (4) Reputational Damage, and (5) Legal/Regulatory.")
+    h5("- Impacts may include: (1) Response/Replacement, (2) Lost Productivity, (3) Competitive Advantage, (4) Reputational Damage, and (5) Legal/Regulatory.")
   ),
   
   fluidRow(
-    radioButtons("sl_radio", h4("- Secondary Impact/Loss Calculation Methods"),
-                 choices = list("Overall Secondary Impact/Loss" = 1,
-                                "Secondary Impact/Loss by Category" = 2),selected = 1)
+    radioButtons("sl_radio", h4("- Secondary Loss Methods"),
+                 choices = list("Overall Secondary Loss" = 1,
+                                "Secondary Loss by Category" = 2),selected = 1)
   ),
   
   fluidRow(
     column(4,
-           textAreaInput("text", h4("Secondary Impact/Loss Description"), width = '100%',
+           textAreaInput("text", h4("Secondary Impact Description"), width = '100%',
                          value = "Impact..."))
   ),
   
@@ -348,18 +339,18 @@ ui <- fluidPage(
     fluidRow(
       
       column(4, 
-             sliderInput("oa_sl_slider", h4("- Current Secondary Impact/Loss Likelihood (%)"), width = '100%',
-                         min = 0.1, max = 100, value = c(1, 5))
+             sliderInput("oa_sl_slider", h4("- Current Secondary Loss Likelihood (%)"), width = '100%',
+                         min = 1, max = 100, value = c(1, 5))
       )
     ),
     
     fluidRow(
       
       column(4,
-             currencyInput("oa_si_min_num", "Current Secondary Impact/Loss - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("oa_si_min_num", "Current Secondary Loss Impact - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("oa_si_max_num", "Current Secondary Impact/Loss - Maximum ($)", value = 50000, format = "dollar", width = "100%", align = "right")
+             currencyInput("oa_si_max_num", "Current Secondary Loss Impact - Maximum ($)", value = 50000, format = "dollar", width = "100%", align = "right")
       ),
       
     ),
@@ -370,18 +361,18 @@ ui <- fluidPage(
         fluidRow(
           
           column(4, 
-                 sliderInput("f_oa_sl_slider", h4("- Future Secondary Impact/Loss Likelihood (%)"), width = '100%',
-                             min = 0.1, max = 100, value = c(1, 2))
+                 sliderInput("f_oa_sl_slider", h4("- Future Secondary Loss Likelihood (%)"), width = '100%',
+                             min = 1, max = 100, value = c(1, 5))
           )
         ),
         
         fluidRow(
           
           column(4,
-                 currencyInput("f_oa_si_min_num", "Future Secondary Impact/Loss - Minimum ($)", value = 2500, format = "dollar", width = "100%", align = "right"),
+                 currencyInput("f_oa_si_min_num", "Future Secondary Loss Impact - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
           ),
           column(4,
-                 currencyInput("f_oa_si_max_num", "Future Secondary Impact/Loss - Maximum ($)", value = 25000, format = "dollar", width = "100%", align = "right")
+                 currencyInput("f_oa_si_max_num", "Future Secondary Loss Impact - Maximum ($)", value = 50000, format = "dollar", width = "100%", align = "right")
           )
         )
     ),
@@ -399,17 +390,17 @@ ui <- fluidPage(
       
       column(4, 
              sliderInput("rr_sl_slider", h6("Current Response/Replacement Likelihood (%)"), width = '100%',
-                         min = 0.1, max = 100, value = c(1, 5))
+                         min = 1, max = 100, value = c(1, 5))
       )
     ),
     
     fluidRow(
       
       column(4,
-             currencyInput("rr_si_min_num", "Current Response/Replacement Impact/Loss - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("rr_si_min_num", "Current Response/Replacement Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("rr_si_max_num", "Current Response/Replacement Impact/Loss - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
+             currencyInput("rr_si_max_num", "Current Response/Replacement Impact - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
       ),
       
     ),
@@ -421,17 +412,17 @@ ui <- fluidPage(
           
           column(4, 
                  sliderInput("f_rr_sl_slider", h6("Future Response/Replacement Likelihood (%)"), width = '100%',
-                             min = 0.1, max = 100, value = c(1, 2))
+                             min = 1, max = 100, value = c(1, 5))
           )
         ),
         
         fluidRow(
           
           column(4,
-                 currencyInput("f_rr_si_min_num", "Future Response/Replacement Impact/Loss - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
+                 currencyInput("f_rr_si_min_num", "Future Response/Replacement Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
           ),
           column(4,
-                 currencyInput("f_rr_si_max_num", "Future Response/Replacement Impact/Loss - Maximum ($)", value = 1000, format = "dollar", width = "100%", align = "right")
+                 currencyInput("f_rr_si_max_num", "Future Response/Replacement Impact - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
           ),
           
         )
@@ -446,17 +437,17 @@ ui <- fluidPage(
       
       column(4, 
              sliderInput("lp_sl_slider", h6("Current Lost Productivity Likelihood (%)"), width = '100%',
-                         min = 0.1, max = 100, value = c(1, 5))
+                         min = 1, max = 100, value = c(1, 5))
       )
     ),
     
     fluidRow(
       
       column(4,
-             currencyInput("lp_si_min_num", "Current Lost Productivity Impact/Loss - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("lp_si_min_num", "Current Lost Productivity Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("lp_si_max_num", "Current Lost Productivity Imapct/Loss - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
+             currencyInput("lp_si_max_num", "Current Lost Productivity - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
       ),
       
     ),
@@ -468,17 +459,17 @@ ui <- fluidPage(
           
           column(4, 
                  sliderInput("f_lp_sl_slider", h6("Future Lost Productivity Likelihood (%)"), width = '100%',
-                             min = 0.1, max = 100, value = c(1, 2))
+                             min = 1, max = 100, value = c(1, 5))
           )
         ),
         
         fluidRow(
           
           column(4,
-                 currencyInput("f_lp_si_min_num", "Future Lost Productivity Impact/Loss - Minimum ($)", value = 500, format = "dollar", width = "100%", align = "right"),
+                 currencyInput("f_lp_si_min_num", "Future Lost Productivity Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
           ),
           column(4,
-                 currencyInput("f_lp_si_max_num", "Future Lost Productivity Impact/Loss - Maximum ($)", value = 1000, format = "dollar", width = "100%", align = "right")
+                 currencyInput("f_lp_si_max_num", "Future Lost Productivity - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
           ),
           
         )
@@ -490,16 +481,16 @@ ui <- fluidPage(
     
     column(4, 
            sliderInput("ca_sl_slider", h6("Current Competitive Advantage Likelihood (%)"), width = '100%',
-                       min = 0.1, max = 100, value = c(1, 5))
+                       min = 1, max = 100, value = c(1, 5))
     ),
     
     fluidRow(
       
       column(4,
-             currencyInput("ca_si_min_num", "Current Competitive Advantage Impact/Loss - Minimum ($)", value = 10000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("ca_si_min_num", "Current Competitive Advantage Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("ca_si_max_num", "Current Competitive Advantage Impact/Loss - Maximum ($)", value = 20000, format = "dollar", width = "100%", align = "right")
+             currencyInput("ca_si_max_num", "Current Competitive Advantage Impact - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
       ),
     ),
     
@@ -508,36 +499,36 @@ ui <- fluidPage(
       
         column(4, 
                sliderInput("f_ca_sl_slider", h6("Future Competitive Advantage Likelihood (%)"), width = '100%',
-                           min = 0.1, max = 100, value = c(1, 2))
+                           min = 1, max = 100, value = c(1, 5))
         ),
         
         fluidRow(
           
           column(4,
-                 currencyInput("f_ca_si_min_num", "Future Competitive Advantage Impact/Loss - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
+                 currencyInput("f_ca_si_min_num", "Future Competitive Advantage Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
           ),
           column(4,
-                 currencyInput("f_ca_si_max_num", "Future Competitive Advantage Impact/Loss - Maximum ($)", value = 10000, format = "dollar", width = "100%", align = "right")
+                 currencyInput("f_ca_si_max_num", "Future Competitive Advantage Impact - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
           ),
         )
     ),
     
     fluidRow(  
-      h4("- Reputational Damage")
+      h4("- Reputational Advantage")
     ),
     
     column(4, 
            sliderInput("rd_sl_slider", h6("Current Reputational Damage Likelihood (%)"), width = '100%',
-                       min = 0.1, max = 100, value = c(1, 5))
+                       min = 1, max = 100, value = c(1, 5))
     ),
     
     fluidRow(
       
       column(4,
-             currencyInput("rd_si_min_num", "Current Reputational Damage Impact/Loss - Minimum ($)", value = 10000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("rd_si_min_num", "Current Reputational Damage Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("rd_si_max_num", "Current Reputational Damage Impact/Loss - Maximum ($)", value = 200000, format = "dollar", width = "100%", align = "right")
+             currencyInput("rd_si_max_num", "Current Reputational Damage - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
       ),
     ),
     
@@ -546,16 +537,16 @@ ui <- fluidPage(
       
         column(4, 
                sliderInput("f_rd_sl_slider", h6("Future Reputational Damage Likelihood (%)"), width = '100%',
-                           min = 0.1, max = 100, value = c(1, 2))
+                           min = 1, max = 100, value = c(1, 5))
         ),
         
         fluidRow(
           
           column(4,
-                 currencyInput("f_rd_si_min_num", "Future Reputational Damage Impact/Loss - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
+                 currencyInput("f_rd_si_min_num", "Future Reputational Damage Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
           ),
           column(4,
-                 currencyInput("f_rd_si_max_num", "Future Reputational Damage Impact/Loss - Maximum ($)", value = 100000, format = "dollar", width = "100%", align = "right")
+                 currencyInput("f_rd_si_max_num", "Future Reputational Damage - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
           ),
         )
     ),
@@ -566,16 +557,16 @@ ui <- fluidPage(
     
     column(4, 
            sliderInput("lr_sl_slider", h6("Current Legal/Regulatory Likelihood (%)"), width = '100%',
-                       min = 0.1, max = 100, value = c(1, 5))
+                       min = 1, max = 100, value = c(1, 5))
     ),
     
     fluidRow(
       
       column(4,
-             currencyInput("lr_si_min_num", "Current Legal/Regulatory Impact/Loss - Minimum ($)", value = 10000, format = "dollar", width = "100%", align = "right"),
+             currencyInput("lr_si_min_num", "Current Legal/Regulatory Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
       ),
       column(4,
-             currencyInput("lr_si_max_num", "Current Legal/Regulatory Impact/Loss - Maximum ($)", value = 200000, format = "dollar", width = "100%", align = "right")
+             currencyInput("lr_si_max_num", "Current Legal/Regulatory - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
       ),
     ),
   
@@ -584,16 +575,16 @@ ui <- fluidPage(
     
       column(4, 
              sliderInput("f_lr_sl_slider", h6("Future Legal/Regulatory Likelihood (%)"), width = '100%',
-                         min = 0.1, max = 100, value = c(1, 2))
+                         min = 1, max = 100, value = c(1, 5))
       ),
       
       fluidRow(
         
         column(4,
-               currencyInput("f_lr_si_min_num", "Future Legal/Regulatory Impact/Loss - Minimum ($)", value = 5000, format = "dollar", width = "100%", align = "right"),
+               currencyInput("f_lr_si_min_num", "Future Legal/Regulatory Impact - Minimum ($)", value = 1000, format = "dollar", width = "100%", align = "right"),
         ),
         column(4,
-               currencyInput("f_lr_si_max_num", "Future Legal/Regulatory Impact/Loss - Maximum ($)", value = 100000, format = "dollar", width = "100%", align = "right")
+               currencyInput("f_lr_si_max_num", "Future Legal/Regulatory - Maximum ($)", value = 2000, format = "dollar", width = "100%", align = "right")
         ),
       )
   ),
@@ -607,7 +598,7 @@ ui <- fluidPage(
     ),
     
     fluidRow(
-      h2("Inherent LEF/Likelihood Summary")
+      h2("Inherent Likelihood Summary")
     ),
     
     fluidRow(
@@ -627,7 +618,7 @@ ui <- fluidPage(
     
     fluidRow(
       
-      h2("Inherent Impact/Loss Summary")
+      h2("Inherent Impact Summary")
       
     ),
     
@@ -660,17 +651,10 @@ ui <- fluidPage(
     
     fluidRow(
       
-      verbatimTextOutput("in_ale_sum")
-      
-    ),  
-    
-    fluidRow(
-      
-      verbatimTextOutput("in_ale_5"),
+      verbatimTextOutput("in_ale_sum"),
       verbatimTextOutput("in_ale_10"),
       verbatimTextOutput("in_ale_mode"),
       verbatimTextOutput("in_ale_90"),
-      verbatimTextOutput("in_ale_95"),
       verbatimTextOutput("in_ale_99")
       
     ),  
@@ -705,7 +689,7 @@ ui <- fluidPage(
   
   fluidRow(
     
-    h2("Current Residual LEF/Likelihood Summary")
+    h2("Current Residual Likelihood Summary")
     
   ),
   
@@ -726,7 +710,7 @@ ui <- fluidPage(
   
   fluidRow(
     
-    h2("Current Residual Impact/Loss Summary")
+    h2("Current Residual Impact Summary")
     
   ),
   
@@ -756,20 +740,13 @@ ui <- fluidPage(
     h4("Current Residual Annual Loss Expectancy (1 year)")
     
   ),
-
-  fluidRow(
-  
-    verbatimTextOutput("rale_sum")
-  
-  ),
   
   fluidRow(
     
-    verbatimTextOutput("rale_5"),
+    verbatimTextOutput("rale_sum"),
     verbatimTextOutput("rale_10"),
     verbatimTextOutput("rale_mode"),
     verbatimTextOutput("rale_90"),
-    verbatimTextOutput("rale_95"),
     verbatimTextOutput("rale_99")
     
   ),
@@ -811,7 +788,7 @@ ui <- fluidPage(
         
         fluidRow(
           
-          h2("Future Residual LEF/Likelihood Summary")
+          h2("Future Residual Likelihood Summary")
           
         ),
         
@@ -832,7 +809,7 @@ ui <- fluidPage(
         
         fluidRow(
           
-          h2("Future Residual Impact/Loss Summary")
+          h2("Future Residual Impact Summary")
           
         ),
         
@@ -862,20 +839,13 @@ ui <- fluidPage(
           h4("Future Residual Annual Loss Expectancy (1 year)")
           
         ),
-
-        fluidRow(
         
-          verbatimTextOutput("f_rale_sum")
-        
-        ),
-              
         fluidRow(
           
-          verbatimTextOutput("f_rale_5"),
+          verbatimTextOutput("f_rale_sum"),
           verbatimTextOutput("f_rale_10"),
           verbatimTextOutput("f_rale_mode"),
           verbatimTextOutput("f_rale_90"),
-          verbatimTextOutput("f_rale_95"),
           verbatimTextOutput("f_rale_99")
           
         ),
@@ -913,6 +883,7 @@ server <- function(input, output, session) {
   
   library(ggplot2)
   library(scales)
+  library(poilog)
   ##### Input Variables #############################################################################
   # Threat Event Frequency (Min, Max) 90% Confidence
   tef_min <- reactive({
@@ -1606,7 +1577,7 @@ server <- function(input, output, session) {
   # Calculate the Current Residual Threat Event Frequency (TEF)
   tef <- reactive({
     if (lkh_option()==1) {
-      rlnorm(n,tef_mean(),tef_sd())
+      rpoilog(n,tef_mean(),tef_sd())
     }
   })
   # Calculate the Current Residual Threat Capability (TCap)
@@ -1630,7 +1601,7 @@ server <- function(input, output, session) {
   # Calculate the Current Likelihood (CS)
   lkh_temp2 <- reactive({
     if (lkh_option()==2) {
-      rlnorm(n,lkh_mean(),lkh_sd())
+      rpoilog(n,lkh_mean(),lkh_sd())
     }
   })
   # Calculate the Current Residual Vulnerability (Vuln)
@@ -1710,7 +1681,7 @@ server <- function(input, output, session) {
   })
   ## Assumes that the Threat Event Frequency increases 20% in the absense of controls
   in_tef <- reactive({
-    tef() * 1.2
+    tef() * 1.1
   })
   in_lkh <- reactive({
     round(in_tef() * in_vuln, digits = 2)
@@ -1722,7 +1693,7 @@ server <- function(input, output, session) {
   })
   ### Assumes that the Primary Impact increases 20% in the absence of controls
   in_pi <- reactive({
-    pi() * 1.1
+    pi() * 1.2
   })
   ### Future Primary Residual Impact
   f_pi <- reactive({
@@ -1732,7 +1703,7 @@ server <- function(input, output, session) {
   ### The Overall Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   oa_sl <- reactive({
     if (sl_option()==1) {
-      rlnorm(n,oa_sl_mean(),oa_sl_sd())
+      rpoilog(n,oa_sl_mean(),oa_sl_sd())
     }
   })
   ### The Overall Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1744,7 +1715,7 @@ server <- function(input, output, session) {
   ### The Respond/Replace Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   rr_sl <- reactive({
     if (sl_option()==2) {
-      rlnorm(n,rr_sl_mean(),rr_sl_sd())
+      rpoilog(n,rr_sl_mean(),rr_sl_sd())
     }
   })
   ### The Respond/Replace Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1756,7 +1727,7 @@ server <- function(input, output, session) {
   ### The Lost Productivity Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   lp_sl <- reactive({
     if (sl_option()==2) {
-      rlnorm(n,lp_sl_mean(),lp_sl_sd())
+      rpoilog(n,lp_sl_mean(),lp_sl_sd())
     }
   })
   ### The Lost Productivity Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1768,7 +1739,7 @@ server <- function(input, output, session) {
   ### The Competitive Advantage Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   ca_sl <- reactive({
     if (sl_option()==2) {
-      rlnorm(n,ca_sl_mean(),ca_sl_sd())
+      rpoilog(n,ca_sl_mean(),ca_sl_sd())
     }
   })
   ### The Competitive Advantage Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1780,7 +1751,7 @@ server <- function(input, output, session) {
   ### The Reputational Damage Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   rd_sl <- reactive({
     if (sl_option()==2) {
-      rlnorm(n,rd_sl_mean(),rd_sl_sd())
+      rpoilog(n,rd_sl_mean(),rd_sl_sd())
     }
   })
   ### The Reputational Damage Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1792,7 +1763,7 @@ server <- function(input, output, session) {
   ### The Legal/Regulatory Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   lr_sl <- reactive({
     if (sl_option()==2) {
-      rlnorm(n,lr_sl_mean(),lr_sl_sd())
+      rpoilog(n,lr_sl_mean(),lr_sl_sd())
     }
   })
   ### The Legal/Regulatory Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1813,7 +1784,7 @@ server <- function(input, output, session) {
   ### The Overall Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   f_oa_sl <- reactive({
     if (lkh_option()==1 & future_option()==2 & sl_option()==1) {
-      rlnorm(n,f_oa_sl_mean(),f_oa_sl_sd())
+      rpoilog(n,f_oa_sl_mean(),f_oa_sl_sd())
     }
   })
   ### The Overall Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1825,7 +1796,7 @@ server <- function(input, output, session) {
   ### The Respond/Replace Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   f_rr_sl <- reactive({
     if (lkh_option()==1 & future_option()==2 & sl_option()==2) {
-      rlnorm(n,f_rr_sl_mean(),f_rr_sl_sd())
+      rpoilog(n,f_rr_sl_mean(),f_rr_sl_sd())
     }
   })
   ### The Respond/Replace Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1837,7 +1808,7 @@ server <- function(input, output, session) {
   ### The Lost Productivity Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   f_lp_sl <- reactive({
     if (lkh_option()==1 & future_option()==2 & sl_option()==2) {
-      rlnorm(n,f_lp_sl_mean(),f_lp_sl_sd())
+      rpoilog(n,f_lp_sl_mean(),f_lp_sl_sd())
     }
   })
   ### The Lost Productivity Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1849,7 +1820,7 @@ server <- function(input, output, session) {
   ### The Competitive Advantage Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   f_ca_sl <- reactive({
     if (lkh_option()==1 & future_option()==2 & sl_option()==2) {
-      rlnorm(n,f_ca_sl_mean(),f_ca_sl_sd())
+      rpoilog(n,f_ca_sl_mean(),f_ca_sl_sd())
     }
   })
   ### The Competitive Advantage Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1861,7 +1832,7 @@ server <- function(input, output, session) {
   ### The Reputational Damage Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   f_rd_sl <- reactive({
     if (lkh_option()==1 & future_option()==2 & sl_option()==2) {
-      rlnorm(n,f_rd_sl_mean(),f_rd_sl_sd())
+      rpoilog(n,f_rd_sl_mean(),f_rd_sl_sd())
     }
   })
   ### The Reputational Damage Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1873,7 +1844,7 @@ server <- function(input, output, session) {
   ### The Legal/Regulatory Residual Secondary Impact Likelihood is the probability that the Secondary Impact will occur
   f_lr_sl <- reactive({
     if (lkh_option()==1 & future_option()==2 & sl_option()==2) {
-      rlnorm(n,f_lr_sl_mean(),f_lr_sl_sd())
+      rpoilog(n,f_lr_sl_mean(),f_lr_sl_sd())
     }
   })
   ### The Legal/Regulatory Residual Secondary Impact is the loss that will only result with some percentage of occurrences
@@ -1892,7 +1863,7 @@ server <- function(input, output, session) {
   })
   ### Inherent Secondary Impact
   in_si <- reactive({
-    si() * 0.99
+    si() * 1.2
   })
   # Inherent Impact
   in_ipt <- reactive({
@@ -1952,11 +1923,6 @@ server <- function(input, output, session) {
     uniqv[which.max(tabulate(match(v, uniqv)))]
   }
   # Residual Annual Loss Expectancy Percentile Calculations
-  output$rale_5 <- renderPrint({
-    print("Fifth Percentile")
-    dollar(c(quantile(rale(), maxDecimals = 4, c(0.05))))
-  })
-  # Residual Annual Loss Expectancy Percentile Calculations
   output$rale_10 <- renderPrint({
     print("Tenth Percentile")
     dollar(c(quantile(rale(), maxDecimals = 4, c(0.1))))
@@ -1969,11 +1935,6 @@ server <- function(input, output, session) {
   output$rale_90 <- renderPrint({
     print("Ninetieth Percentile")  
     dollar(c(quantile(rale(), maxDecimals = 4, c(0.9))))
-  })
-  # Residual Annual Loss Expectancy Percentile Calculations
-  output$rale_95 <- renderPrint({
-    print("Ninty-Fifth Percentile")
-    dollar(c(quantile(rale(), maxDecimals = 4, c(0.95))))
   })
   output$rale_99 <- renderPrint({
     print("Ninety-Ninth Percentile")  
@@ -1993,11 +1954,6 @@ server <- function(input, output, session) {
     dollar(c(quantile(rale_ten(), maxDecimals = 4, c(0.99))))
   })
   # Future Residual Annual Loss Expectancy Percentile Calculations
-  output$f_rale_5 <- renderPrint({
-    print("Fifth Percentile")
-    dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.05))))
-  })
-  # Future Residual Annual Loss Expectancy Percentile Calculations
   output$f_rale_10 <- renderPrint({
     print("Tenth Percentile")
     dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.1))))
@@ -2010,11 +1966,6 @@ server <- function(input, output, session) {
   output$f_rale_90 <- renderPrint({
     print("Ninetieth Percentile")  
     dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.9))))
-  })
-  # Future Residual Annual Loss Expectancy Percentile Calculations
-  output$f_rale_95 <- renderPrint({
-    print("Ninty-Fifth Percentile")
-    dollar(c(quantile(f_rale(), maxDecimals = 4, c(0.95))))
   })
   output$f_rale_99 <- renderPrint({
     print("Ninety-Ninth Percentile")  
@@ -2038,11 +1989,6 @@ server <- function(input, output, session) {
     print("Tenth Percentile")
     dollar(c(quantile(in_ale(), maxDecimals = 4, c(0.1))))
   })
-  # Inherent Annual Loss Expectancy Percentile Calculations
-  output$in_ale_5 <- renderPrint({
-    print("Fifth Percentile")
-    dollar(c(quantile(in_ale(), maxDecimals = 4, c(0.05))))
-  })
   # Inherent Annual Loss Expectancy Most Likely (Mode)
   output$in_ale_mode <- renderPrint({
     print("Most Likely")
@@ -2051,11 +1997,6 @@ server <- function(input, output, session) {
   output$in_ale_90 <- renderPrint({
     print("Ninetieth Percentile")
     dollar(c(quantile(in_ale(), maxDecimals = 4, c(0.9))))
-  })
-  # Inherent Annual Loss Expectancy Percentile Calculations
-  output$in_ale_95 <- renderPrint({
-    print("Ninty-Fifth Percentile")
-    dollar(c(quantile(in_ale(), maxDecimals = 4, c(0.95))))
   })
   output$in_ale_99 <- renderPrint({
     print("Ninety-Ninth Percentile")
@@ -2133,7 +2074,7 @@ server <- function(input, output, session) {
   output$in_ale_hist <- renderPlot({
     req(in_ale())
     par(xpd=TRUE)
-    hist(in_ale(), col = "#00563f",  breaks = iab(), labels = TRUE)
+    hist(log(in_ale()), col = "#00563f",  breaks = iab(), labels = TRUE)
   })
   
   # Current Residual Risk Renders
@@ -2186,7 +2127,7 @@ server <- function(input, output, session) {
   output$rale_hist_1 <- renderPlot({
     req(rale())
     par(xpd=TRUE)
-    hist(rale(), col = "#00563f",  breaks = rab(), labels = TRUE)
+    hist(log(rale()), col = "#00563f",  breaks = rab(), labels = TRUE)
   })
   
   output$rale_hist_2 <- renderPlot({
@@ -2247,7 +2188,7 @@ server <- function(input, output, session) {
   output$f_rale_hist_1 <- renderPlot({
     req(f_rale())
     par(xpd=TRUE)
-    hist(f_rale(), col = "#00563f",  breaks = f_rab(), labels = TRUE)
+    hist(log(f_rale()), col = "#00563f",  breaks = f_rab(), labels = TRUE)
   })
   
   output$f_rale_hist_2 <- renderPlot({
