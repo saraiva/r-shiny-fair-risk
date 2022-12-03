@@ -4,11 +4,11 @@ Shiny application that can estimate risk using factor analysis of information ri
  - Open FAIR Risk Taxonomy (O-RT) - https://publications.opengroup.org/editors-picks/open-fair/c20b
  - Open FAIR Risk Analysis (O-RA) - https://publications.opengroup.org/editors-picks/open-fair/c20a
 
-Mostly leverages lognormal distributions for calculating various distributions in the Monte Carlo simulations to assit in estimating the probability of rare high (black swan) impact events. This selection was influenced by the book _How to Measure Anything in Cybersecurity Risk_ (https://www.howtomeasureanything.com/cybersecurity/) by Douglas Hubbard. It also simplifies the range estimates by only requiring the estimation of two values instead of three and a confidence as required when utilizing PERT distributions. This allow a risk analyst to account for black swan events since the low and high probablity estimates in the application only need to be made with 90% confidence, thereby allowing the risk analyst to avoid having to estimate the bottom and top 5% of cases.
+Leverages lognormal distributions for likelihood calculations and poisson lognormal distribution for impact calculations (based on findings of the findings of the Cyentia IRIS 2022 report). It was also influenced by the book _How to Measure Anything in Cybersecurity Risk_ (https://www.howtomeasureanything.com/cybersecurity/) by Douglas Hubbard.
 
 Distributions are used to calculate the various ranges of possible outcomes and are then combined to determine a final distribution of loss events.
 
-The model provides three sets of results:
+The model can provide three sets of results:
   - Inherent (before controls) Loss Event Frequency (LEF)/Likelihood, Loss Magnitude (Loss)/Impact and Risk (1 and 10 year)
   - Current Residual (with existing controls) LEF/Likelihood, Loss/Impact and Risk (1 and 10 year)
   - Future Residual (after additional controls) LEF/Likelihood, Loss/Impact and Risk (1 and 10 year)
@@ -23,8 +23,8 @@ The inherent risk results are not provided when evaluating Likelihood directly d
 These values were set somewhat arbitrarily, but the 95% VULN percentage is equivelent to a TCAP of 1% - 99% and a RS of 1% - 1%.
 
 To use the Shiny applications you will need:
-  - Rstudio (so far have only tested with Version 1.3.1093) - https://www.rstudio.com
-  - R (so far have only tested with Version 4.0.4) - https://cran.rstudio.com/
+  - Rstudio - https://www.rstudio.com
+  - R - https://cran.rstudio.com/
 
 Open the app.R file in RStudio and click the Run App button in the top right corner of the code editing pane.
 
