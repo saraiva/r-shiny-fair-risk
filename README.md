@@ -4,7 +4,7 @@ Shiny application that can estimate risk using factor analysis of information ri
  - Open FAIR Risk Taxonomy (O-RT) - https://publications.opengroup.org/editors-picks/open-fair/c20b
  - Open FAIR Risk Analysis (O-RA) - https://publications.opengroup.org/editors-picks/open-fair/c20a
 
-Leverages lognormal distributions for likelihood calculations and poisson lognormal distribution for impact calculations (based on findings of the findings of the Cyentia IRIS 2022 report). It was also influenced by the book _How to Measure Anything in Cybersecurity Risk_ (https://www.howtomeasureanything.com/cybersecurity/) by Douglas Hubbard.
+Leverages lognormal distributions for likelihood calculations and poisson lognormal distribution for impact calculations (based on findings of the findings of the Cyentia IRIS 2022 report (https://www.cyentia.com/iris/#iris-2022)). It was also influenced by the book _How to Measure Anything in Cybersecurity Risk_ (https://www.howtomeasureanything.com/cybersecurity/) by Douglas Hubbard.
 
 Distributions are used to calculate the various ranges of possible outcomes and are then combined to determine a final distribution of loss events.
 
